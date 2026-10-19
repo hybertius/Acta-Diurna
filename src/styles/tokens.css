@@ -1,16 +1,25 @@
 :root {
   color-scheme: dark;
-  font-family: system-ui, sans-serif;
+  font-family: Inter, system-ui, sans-serif;
 
   /* Colour */
-  --colour-canvas: #08090a;
-  --colour-surface: #f2f3f8;
-  --colour-surface-selected: #efffd9;
-  --colour-brand-dark: #0b2d59;
-  --colour-selection: #83b9ff;
-  --colour-selection-active: #91f596;
-  --colour-error: #823a3a;
-  --colour-text: #101114;
+  --colour-canvas: #0b0b0d;
+  --colour-surface: #eff0f4;
+  --colour-surface-selected: #f2ffdf;
+
+  --colour-text: #0d1110;
+  --colour-text-on-dark: #eff0f4;
+
+  --colour-primary-box: #0c2950;
+
+  --colour-selection: #80b7ff;
+  --colour-selection-active: #a4ffa2;
+
+  --colour-error: #773232;
+  --colour-error-outline: #311011;
+  --colour-border-default: #14060f;
+
+  --colour-accent-light: #c1eaf2;
 
   /* Spacing */
   --space-1: 4px;

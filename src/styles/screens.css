@@ -7,5 +7,5 @@
 }
 
 .app p {
-  color: var(--colour-surface);
+  color: var(--colour-text-on-dark);
 }
