@@ -26,5 +26,7 @@
   --radius-panel: 32px;
 
   /* Layout */
-  --content-width: 64rem;
+  --screen-width: 360px;
+  --screen-height: 720px;
+  --screen-padding-inline: 8px;
 }

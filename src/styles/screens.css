@@ -1,6 +1,8 @@
 .app {
-  width: min(100% - 2 * var(--space-4), var(--content-width));
+  width: min(100%, var(--screen-width));
+  min-height: var(--screen-height);
   margin-inline: auto;
+  padding-inline: var(--screen-padding-inline);
   padding-block: var(--space-6);
 }
 
