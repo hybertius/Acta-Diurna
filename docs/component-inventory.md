@@ -20,12 +20,25 @@ Semantic target architecture derived from the five audited Figma frames. This in
 | `AvailabilitySection` | Groups available time choices under a section heading. | One or more selectable time slots. | Frame 2 |
 | `TimeSlotCard` | Shows a time option and communicates its selection state. | Available, selected; selection marker shown as appropriate. | Frame 2 |
 | `SelectedActivitySummary` | Confirms the chosen activity and its details (day/time, duration, activity type, equipment). | Populated selection. | Frame 4 |
+| `ActivityGroup` | Groups related activity options under a semantic category heading. | Populated group. | Frame 3 |
 | `ActivityOptionCard` | Presents one activity option for comparison and selection. Frame 3 should render the repeated options from activity data rather than duplicate bespoke markup. | Default; selectable; selected; optional intensity/category detail. | Frame 3 (four cards in audited hierarchy); Frame 4 alternatives; Frame 5 suggested alternatives |
 | `EmptyAvailabilityState` | Explains that no times were found, shows the error/empty illustration, and introduces alternatives. | No available times; suggestions present. | Frame 5 |
 
 ## Frame 3 composition
 
-Build the Choose Activity screen from `ScreenShell`, `ScreenHeader`, a data-driven list of four `ActivityOptionCard` items, and `PrimaryButton`. The audited hierarchy has one `Aktivitetskort/Variant2` symbol and three instances, plus separate text layers for “Korta Utepass” and “Låg Intensitet”; treat those labels as activity-card content unless further design inspection shows they are independent controls. Keep the selected activity in screen state so the card selection and primary action can reflect it.
+Build the Choose Activity screen from:
+
+- `ScreenShell`
+- `ScreenHeader`
+- Screen heading
+- Two `ActivityGroup` containers, each containing:
+  - A category heading
+  - A data-driven list of `ActivityOptionCard` items
+- `PrimaryButton`
+
+The audited hierarchy contains four activity cards and two separate text layers, “Korta Utepass” and “Låg Intensitet”. Treat these text layers as category headings above their corresponding option lists, not as card content.
+
+Store the selected activity as screen state so that only one activity is selected at a time, the selected card communicates its state visually and structurally, and the primary action can respond to whether a valid selection exists.
 
 ## Implementation notes
 
