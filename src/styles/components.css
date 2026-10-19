@@ -1,4 +1,4 @@
-.activity-option-card.activity-option-card--specimen {
+.activity-option-card {
   display: flex;
   align-items: center;
   gap: var(--space-3);
