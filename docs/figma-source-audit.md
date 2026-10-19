@@ -74,6 +74,54 @@ The supplied link targets node `80:247` (`Träningsplanerare - Komponent`), a ch
 </frame>
 ```
 
+### Cross-frame style and structure audit
+
+The style inspection used the page URL targeting `1:2` (`00 - Original Frames`) and the palette frame `105:311` (`Used Palette For Frames`). Node `1:2` is a canvas, not a screen frame; its canvas dimensions are reported as `0 × 0`. The five screen frames and direct children are captured above.
+
+Figma MCP returned full design context for Frames 1 and 2, and variable definitions for the page, Frames 1, 3 and 4. Further design-context and variable-definition requests were blocked by the Starter-plan tool-call limit. Consequently, the typography/layout observations below are confirmed for the returned nodes only; they are not a complete property-by-property audit of Frames 3–5.
+
+#### Typography
+
+The named text styles returned by Figma use Inter, with weight and size variation:
+
+| Figma style | Font | Size | Weight | Line height | Letter spacing |
+|---|---|---:|---:|---:|---:|
+| `Titel/Button/L` | Inter Bold | 20px | 700 | 100 (Figma value) | 0 |
+| `Titel/Heading/L` | Inter Bold | 20px | 700 | 100 (Figma value) | 0 |
+| `Titel/Bar/m` | Inter Semi Bold | 16px | 600 | 30 (Figma value) | 10 (Figma value) |
+| `Titel/Bar/M` | Inter Extra Bold | 16px | 800 | 30 (Figma value) | 10 (Figma value) |
+| `Body` | Inter Semi Bold | 16px | 600 | 59 (Figma value) | 10 (Figma value) |
+
+Figma's returned text uses 20px bold for screen titles and prominent buttons, 16px medium/semi-bold for calendar and card text, and 12px (plus an 11px line) for calendar dates and markers. In the returned source, the upcoming-activity and time-card copy is Inter Semi Bold, 16px with 30px line height and 1.6px letter spacing; the calendar heading is 16px Semi Bold, and its weekday/date/marker rows use 16px, 12px and 11px. The metadata does not establish that every text node in all five frames is attached to a named text style.
+
+#### Palette and variables
+
+The palette frame is 514 × 340. Its 12 swatches are 100 × 100; the fills returned by design context are:
+
+| Swatch node | Raw fill |
+|---|---|
+| `105:293` | `#C1EAF2` |
+| `105:294` | `#EFF0F4` |
+| `105:295` | `#0D1110` |
+| `105:296` | `#0B0B0D` |
+| `105:297` | `#EFF0F4` |
+| `105:298` | `#F2FFDF` |
+| `105:299` | `#773232` |
+| `105:301` | `#311011` |
+| `105:302` | `#A4FFA2` |
+| `105:305` | `#EFF0F4` |
+| `105:307` | `#0C2950` |
+| `105:309` | `#80B7FF` |
+
+Named color variables returned across the page and screen nodes: `surface/background` `#0B0B0D`; `surface/card` and `text/subtle` `#EFF0F4`; `surface/selected` `#F2FFDF`; `text/default` `#0D1110`; `color/primary box` `#0C2950`; `state/Can Be Selected` `#80B7FF`; `state/selected` and `feedback/Success` `#A4FFA2`; `feedback/error Icon` `#773232`; and `feedback/Error Outline` `#311011`. The pale-blue swatch `#C1EAF2` was returned as a raw fill, without a corresponding variable in the retrieved definitions. A separate `border/default border` variable was returned as `#14060F`; it is distinct from `feedback/Error Outline`.
+
+#### Layout, hierarchy and structural observations
+
+- **Frame 1 (`1:25`)** is 360 × 720. Its root uses a dark fill and 38px corner radius. The returned implementation context represents the calendar, upcoming-activity regions and bottom button as absolutely positioned; their frame coordinates are in the hierarchy above. Inner calendar/card content uses flex containers with centered alignment. The two `Frame Kommande Aktivitet Display` nodes (`72:145` and `86:279`) overlap at the same position and size; an additional `Kommande aktivitet/Variant2` symbol (`86:408`) also occupies the same area. This is a visible structural duplication in the source hierarchy, not an inferred detached instance.
+- **Frame 2 (`80:178`)** is 360 × 720. Its root uses a vertical flex layout, centered children, 31px block padding, 26px gap and a 38px corner radius. The returned hierarchy contains the title, available-times heading, time cards, selected-time card and confirmation button. The time-card rows contain repeated component content; one row is an instance (`94:648`). Individual inner-card controls use absolute positioning.
+- The retrieved component context exposes a `property1` variant with value `Variant2` on the title and time-card components. The frame hierarchies identify the other symbols and instances by node ID; component property details for Frames 3–5 were not available after the rate limit.
+- No variable definitions for spacing or strokes were returned in the successful calls. The raw spacing, padding, gaps, alignment and absolute-position values above come from the returned Frame 1 and Frame 2 context; values for the other frame layouts remain unaudited here.
+
 ## Original Frame 4: Confirm Selected Activity
 
 - Figma file: `W48y3UapVayJrcGvq9enhQ`
