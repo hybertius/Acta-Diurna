@@ -32,3 +32,16 @@ States:
 - Default activity option
 - Selected activity option
 - Primary action available
+
+Entry conditions:
+
+The user has selected an available time.
+Successful outcome:
+
+One activity is selected.
+The primary action advances to the confirmation screen.
+Rules:
+
+Only one activity can be selected at a time.
+Activity choices remain grouped by category.
+The selected state must not rely on colour alone.
