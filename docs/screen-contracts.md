@@ -11,3 +11,24 @@ Define each screen's purpose, content, states, and interactions here.
 - **Content:** _Information and controls shown._
 - **Actions:** _Available user actions and their outcomes._
 - **States:** _Loading, empty, error, and success states._
+
+Screen: Choose activity
+
+Purpose:
+Allow the user to choose one activity after selecting a time.
+
+Structure:
+- App header
+- Screen heading
+- Activity group
+  - Group heading
+  - Activity option list
+- Activity group
+  - Group heading
+  - Activity option list
+- Primary action
+
+States:
+- Default activity option
+- Selected activity option
+- Primary action available
