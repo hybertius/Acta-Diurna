@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="sv">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#f5f6f8">
-    <title>Training Planner</title>
+    <meta name="theme-color" content="#0b0b0d">
+    <title>Träningsplanerare</title>
     <link rel="stylesheet" href="styles/tokens.css">
     <link rel="stylesheet" href="styles/base.css">
     <link rel="stylesheet" href="styles/components.css">
@@ -12,9 +12,35 @@
     <script src="scripts/app.js" defer></script>
   </head>
   <body>
-    <main class="app">
-      <h1>Training Planner</h1>
-      <p>Your training planning workspace is ready to shape.</p>
+    <main class="app" data-node-id="80:199" aria-labelledby="screen-title">
+      <header class="screen-header" data-node-id="80:205">
+        <h1 id="screen-title" data-node-id="80:206">Träningsplanerare</h1>
+      </header>
+
+      <section class="activity-screen" aria-labelledby="activity-heading">
+        <h2 id="activity-heading" data-node-id="94:675">Välj Aktivitet</h2>
+
+        <div class="activity-groups">
+          <section class="activity-group" aria-labelledby="short-outdoor-heading">
+            <h3 id="short-outdoor-heading" data-node-id="94:746">Korta Utepass</h3>
+            <ul class="activity-option-list">
+              <!-- Card internals are not included in the captured source hierarchy. -->
+              <li><div class="activity-option-card" data-node-id="94:680"></div></li>
+              <li><div class="activity-option-card" data-node-id="94:710"></div></li>
+            </ul>
+          </section>
+
+          <section class="activity-group" aria-labelledby="low-intensity-heading">
+            <h3 id="low-intensity-heading" data-node-id="94:745">Låg Intensitet</h3>
+            <ul class="activity-option-list">
+              <li><div class="activity-option-card" data-node-id="94:735"></div></li>
+              <li><div class="activity-option-card" data-node-id="94:726"></div></li>
+            </ul>
+          </section>
+        </div>
+
+        <button class="primary-button" type="button" data-node-id="94:691">Välj Aktivitet</button>
+      </section>
     </main>
   </body>
 </html>
