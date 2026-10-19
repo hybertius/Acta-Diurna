@@ -2,12 +2,18 @@
   box-sizing: border-box;
 }
 
+html {
+  min-width: 20rem;
+  min-height: 100%;
+}
+
 body {
   min-width: 20rem;
   min-height: 100vh;
   margin: 0;
   background: var(--colour-canvas);
   color: var(--colour-text-on-dark);
+  font-family: Inter, system-ui, sans-serif;
 }
 
 button,
@@ -15,6 +21,10 @@ input,
 select,
 textarea {
   font: inherit;
+}
+
+button {
+  color: inherit;
 }
 
 a {

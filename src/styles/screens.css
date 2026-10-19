@@ -1,11 +1,67 @@
 .app {
   width: min(100%, var(--screen-width));
-  min-height: var(--screen-height);
+  height: var(--screen-height);
   margin-inline: auto;
-  padding-inline: var(--screen-padding-inline);
-  padding-block: var(--space-6);
+  padding: 45px var(--screen-padding-inline) 28px;
+  display: flex;
+  flex-direction: column;
 }
 
-.app p {
-  color: var(--colour-text-on-dark);
+.screen-header {
+  height: 50px;
+  flex: 0 0 50px;
+}
+
+.activity-screen {
+  min-height: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.screen-heading {
+  height: 50px;
+  flex: 0 0 50px;
+  margin: 16px 0;
+}
+
+.activity-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.activity-group h3 {
+  min-height: 30px;
+  margin: 0 0 14px;
+}
+
+.activity-option-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.activity-option-card {
+  display: block;
+  width: min(100%, 340px);
+  height: 80px;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: inherit;
+}
+
+.primary-action {
+  width: min(calc(100% + 16px), var(--screen-width));
+  height: 60px;
+  flex: 0 0 60px;
+  margin-top: auto;
+  margin-left: -6px;
+  padding: 0;
+  border: 0;
+  background: none;
 }
