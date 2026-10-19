@@ -11,7 +11,8 @@ dist/
 build/
 
 # Editor and system files
-.vscode/
+.vscode/*
+!.vscode/mcp.json
 .DS_Store
 Thumbs.db
 
