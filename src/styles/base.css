@@ -6,8 +6,8 @@ body {
   min-width: 20rem;
   min-height: 100vh;
   margin: 0;
-  background: var(--color-background);
-  color: var(--color-text);
+  background: var(--colour-canvas);
+  color: var(--colour-surface);
 }
 
 button,
@@ -18,5 +18,5 @@ textarea {
 }
 
 a {
-  color: var(--color-accent);
+  color: var(--colour-selection);
 }

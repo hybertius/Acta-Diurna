@@ -1,9 +1,9 @@
 .app {
   width: min(100% - 2 * var(--space-4), var(--content-width));
   margin-inline: auto;
-  padding-block: var(--space-8);
+  padding-block: var(--space-6);
 }
 
 .app p {
-  color: var(--color-muted);
+  color: var(--colour-surface);
 }

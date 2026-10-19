@@ -1,19 +1,30 @@
 :root {
-  color-scheme: light;
+  color-scheme: dark;
   font-family: system-ui, sans-serif;
 
-  --color-background: #f5f6f8;
-  --color-surface: #ffffff;
-  --color-text: #20242c;
-  --color-muted: #626b78;
-  --color-accent: #3157a4;
+  /* Colour */
+  --colour-canvas: #08090a;
+  --colour-surface: #f2f3f8;
+  --colour-surface-selected: #efffd9;
+  --colour-brand-dark: #0b2d59;
+  --colour-selection: #83b9ff;
+  --colour-selection-active: #91f596;
+  --colour-error: #823a3a;
+  --colour-text: #101114;
 
-  --space-1: 0.25rem;
-  --space-2: 0.5rem;
-  --space-3: 0.75rem;
-  --space-4: 1rem;
-  --space-6: 1.5rem;
-  --space-8: 2rem;
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
 
+  /* Shape */
+  --radius-control: 12px;
+  --radius-card: 16px;
+  --radius-panel: 32px;
+
+  /* Layout */
   --content-width: 64rem;
 }
