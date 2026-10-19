@@ -1,0 +1,19 @@
+:root {
+  color-scheme: light;
+  font-family: system-ui, sans-serif;
+
+  --color-background: #f5f6f8;
+  --color-surface: #ffffff;
+  --color-text: #20242c;
+  --color-muted: #626b78;
+  --color-accent: #3157a4;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+
+  --content-width: 64rem;
+}
