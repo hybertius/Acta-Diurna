@@ -27,6 +27,16 @@
   gap: var(--space-1);
 }
 
+.activity-option-card__state {
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  margin-left: auto;
+  border: 3px solid var(--colour-border-default);
+  border-radius: 50%;
+  background: var(--colour-selection);
+}
+
 .activity-option-card__title {
   font-size: 16px;
   font-weight: 600;
