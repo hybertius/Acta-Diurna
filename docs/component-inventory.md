@@ -1,7 +1,35 @@
 # Component Inventory
 
-List reusable interface components and their responsibilities here.
+Semantic target architecture derived from the five audited Figma frames. This inventory describes reusable UI responsibilities and states rather than preserving Figma layer names as implementation names. Frame 3 is the immediate reconstruction target.
 
-| Component | Responsibility | Variants / states |
-| --- | --- | --- |
-| _Component name_ | _What it does_ | _Relevant variants_ |
+## Shared components
+
+| Component | Responsibility | Variants / states | Frame usage |
+| --- | --- | --- | --- |
+| `ScreenShell` | Provides the 360px mobile viewport, canvas background, and consistent screen padding. | Standard screen; content may scroll if it exceeds viewport height. | Frames 1–5 |
+| `ScreenHeader` | Displays the planner title and provides a consistent top-level heading treatment. | Default title; heading text supplied by screen. | Frames 1–5 |
+| `PrimaryButton` | Renders a prominent action with a consistent label, hit area, and visual treatment. | Enabled, disabled; primary action. | Frame 1: show available times; Frame 2: confirm time; Frame 3: choose activity; Frame 4: confirm selection; Frame 5: go back |
+| `SelectionCard` | Presents one selectable item with its primary content and optional supporting detail or icon. | Available, selected, unselected; content-specific presentation. | Frames 2–5 |
+
+## Frame-specific components
+
+| Component | Responsibility | Variants / states | Frame usage |
+| --- | --- | --- | --- |
+| `WeekCalendar` | Shows the current week, weekday labels, dates, and per-day activity markers. | Current week; day with or without activity; selected day if interaction requires it. | Frame 1 |
+| `UpcomingActivityCard` | Summarizes the next scheduled activity with an icon or visual marker and concise activity/time text. | Populated; optional activity icon. | Frame 1 |
+| `AvailabilitySection` | Groups available time choices under a section heading. | One or more selectable time slots. | Frame 2 |
+| `TimeSlotCard` | Shows a time option and communicates its selection state. | Available, selected; selection marker shown as appropriate. | Frame 2 |
+| `SelectedActivitySummary` | Confirms the chosen activity and its details (day/time, duration, activity type, equipment). | Populated selection. | Frame 4 |
+| `ActivityOptionCard` | Presents one activity option for comparison and selection. Frame 3 should render the repeated options from activity data rather than duplicate bespoke markup. | Default; selectable; selected; optional intensity/category detail. | Frame 3 (four cards in audited hierarchy); Frame 4 alternatives; Frame 5 suggested alternatives |
+| `EmptyAvailabilityState` | Explains that no times were found, shows the error/empty illustration, and introduces alternatives. | No available times; suggestions present. | Frame 5 |
+
+## Frame 3 composition
+
+Build the Choose Activity screen from `ScreenShell`, `ScreenHeader`, a data-driven list of four `ActivityOptionCard` items, and `PrimaryButton`. The audited hierarchy has one `Aktivitetskort/Variant2` symbol and three instances, plus separate text layers for “Korta Utepass” and “Låg Intensitet”; treat those labels as activity-card content unless further design inspection shows they are independent controls. Keep the selected activity in screen state so the card selection and primary action can reflect it.
+
+## Implementation notes
+
+- Use semantic state (`selected`, `available`, `disabled`, and `empty`) rather than encoding state only in color or layer names.
+- Use the audited shared palette and Inter typography from [figma-source-audit.md](./figma-source-audit.md); keep color and text treatment centralized in design tokens.
+- The Figma extraction identified duplicate overlapping upcoming-activity structures in Frame 1. Do not replicate that duplication as two rendered cards without confirming it is intentional.
+- Component internals and state details for Frames 3–5 were only partially available due to the Figma MCP Starter-plan tool-call limit. Validate exact card content, variant behavior, and interactions against the source when access permits.
