@@ -1,8 +1,11 @@
 .activity-option-card {
   display: flex;
+  width: min(100%, 340px);
+  height: 80px;
   align-items: center;
   gap: var(--space-3);
   padding: var(--space-3);
+  border: 0;
   border-radius: var(--radius-card);
   background: var(--colour-surface);
   color: var(--colour-text);
