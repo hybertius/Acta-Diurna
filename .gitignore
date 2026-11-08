@@ -19,3 +19,7 @@ Thumbs.db
 # Temporary files
 *.log
 *.tmp
+
+# MCP specific files
+mcp.json
+.vscode/mcp.json
