@@ -425,30 +425,32 @@ function getMatchExplanations(recommendation, selectedTime) {
     matchFactors.energy === "match"
       ? `Aktivitetens märkning (${domain.energyLabels[activity.energyLevel]}) passar din valda nivå.`
       : matchFactors.energy === "mismatch"
-        ? `Aktiviteten är märkt ${domain.energyLabels[activity.energyLevel]}, du valde ${domain.energyLabels[energyPreference]}.`
+        ? `Aktiviteten är märkt ${domain.energyLabels[activity.energyLevel]}; du valde ${domain.energyLabels[energyPreference]}.`
         : energyPreference === null
           ? activity.energyLevel === null
             ? "Ingen nivå vald och aktiviteten saknar energimärkning."
-            : "Ingen energinivå vald för den här bokningen."
+            : `Ingen energinivå vald. Aktiviteten är märkt ${domain.energyLabels[activity.energyLevel]}.`
           : "Aktiviteten saknar energimärkning.";
   const locationDetail =
     matchFactors.location === "match"
       ? `Matchar din sparade preferens (${domain.locationLabels[locationPreference]}).`
       : matchFactors.location === "mismatch"
-        ? `Aktiviteten är ${domain.locationLabels[activity.location]}, din sparade preferens är ${domain.locationLabels[locationPreference]}.`
+        ? `Aktiviteten är ${domain.locationLabels[activity.location]}; din sparade preferens är ${domain.locationLabels[locationPreference]}.`
         : locationPreference === null
-          ? "Ingen miljöpreferens sparad."
+          ? activity.location === null
+            ? "Ingen miljöpreferens sparad och aktivitetens miljö är inte känd."
+            : `Ingen miljöpreferens sparad. Aktiviteten är ${domain.locationLabels[activity.location]}.`
           : "Aktiviteten saknar miljömärkning.";
   const equipmentDetail =
     activity.requiredEquipment === null
       ? "Ingen utrustning behövs."
       : matchFactors.equipment === "match"
-        ? `Tillgång till ${equipmentLabel} är angiven.`
+        ? `Aktiviteten behöver ${equipmentLabel}, och tillgången är markerad.`
         : matchFactors.equipment === "mismatch"
           ? equipmentPreference.length === 0
-            ? `Du har angett att du saknar utrustning; aktiviteten behöver ${equipmentLabel}.`
-            : `Tillgång till ${equipmentLabel} är inte markerad i dina preferenser.`
-          : `Tillgång till ${equipmentLabel} är inte angiven.`;
+            ? `Aktiviteten behöver ${equipmentLabel}, men du har angett att du saknar utrustning.`
+            : `Aktiviteten behöver ${equipmentLabel}, men tillgången är inte markerad i dina preferenser.`
+          : `Aktiviteten behöver ${equipmentLabel}; din tillgång är inte angiven.`;
 
   return [
     {
