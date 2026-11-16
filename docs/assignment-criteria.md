@@ -34,3 +34,143 @@ scheduled activity on the home screen after a refresh.
 
 Available times and activities may use local sample data. Browser storage is
 the persistence mechanism for this milestone.
+
+Milestone 2: Make the planner feel alive
+
+Not smarter.
+
+Alive.
+
+I'd define it as:
+
+Goal
+
+Turn a working scheduler into a supportive companion.
+
+Acceptance Criteria
+
+✅ Empty states feel intentional
+
+✅ Every recommendation explains itself
+
+✅ Every screen has one obvious next step
+
+✅ Language feels calm and supportive
+
+✅ UI feels coherent across all states
+
+✅ User always understands "why am I seeing this?"
+
+Milestone 2 - Addition
+
+Trust & Guidance
+
+Make every state feel intentional. Make every recommendation explain itself. Make every interaction feel accompanied rather than managed.
+
+Everything else can wait.
+
+Good stone.
+
+Good sloth.
+
+Proceed. 🗺️🍋🤝🦥
+
+## Milestone 2.5: Focus continuity
+
+Keep keyboard users oriented as they move through the flow.
+
+### Acceptance Criteria
+
+- Moving to another screen focuses its heading; saving a booking focuses Home's
+  primary action.
+- Selecting a time or activity keeps focus on that selected card after it is
+  rendered again.
+- Keyboard focus remains visibly indicated.
+
+Milestone 3
+
+Honestly, I wouldn't even think about it until Milestone 2 is done.
+
+But if I were writing it today:
+
+Plain Text
+Introduce structured recommendation logic.
+
+Meaning:
+
+TypeScript
+timeMatch
+energyMatch
+locationMatch
+equipmentMatch
+
+instead of only:
+
+TypeScript
+durationMatch
+
+Milestone 3:
+
+Plain Text
+Time
+↓
+Context
+↓
+Activity
+↓
+Confirm
+
+Or even:
+
+Plain Text
+Time
+↓
+Activity
+
+while context sits silently in settings.
+
+And I would still keep it tiny.
+
+Maybe literally:
+
+TypeScript
+energy:
+
+- Low
+- Normal
+- High
+
+location:
+
+- Home
+- Outdoors
+- Gym
+
+That's enough.
+
+Alternative Milestone 3?
+
+Weekly Guidance
+
+Not tracking.
+
+Guidance.
+
+Examples:
+
+Plain Text
+This week:
+2 activities planned.
+
+One more activity would reach your goal.
+
+or
+
+Plain Text
+You have already planned several activities this week.
+
+No rush.
+
+The sloth version of progress.
+
+🦥

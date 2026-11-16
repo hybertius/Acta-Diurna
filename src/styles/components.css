@@ -71,6 +71,21 @@
   box-shadow: inset 1px 1px 0 rgb(255 255 255 / 28%), 0 1px 1px rgb(41 56 47 / 12%);
 }
 
+.week-calendar__legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 0;
+  color: var(--colour-text-muted);
+  font-size: 11px;
+}
+
+.week-calendar__legend .week-calendar__marker {
+  width: 10px;
+  height: 7px;
+}
+
 .upcoming-card,
 .confirmed-activity {
   display: flex;
@@ -181,7 +196,9 @@
 
 .time-slot-card:focus-visible,
 .activity-option-card:focus-visible,
-.primary-action:focus-visible {
+.primary-action:focus-visible,
+.screen-title-pill:focus-visible,
+.confirmation-screen__heading:focus-visible {
   outline: 3px solid var(--colour-selection);
   outline-offset: 2px;
 }
@@ -255,6 +272,12 @@
   letter-spacing: 0.3px;
 }
 
+.activity-option-card__personality {
+  color: var(--colour-text-muted);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
 .activity-option-card__recommendation {
   align-self: center;
   padding: 2px 8px;
@@ -264,6 +287,47 @@
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.1px;
+}
+
+.activity-option-card__why {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 4px;
+  padding-top: 6px;
+  border-top: 1px solid var(--colour-border-default);
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.activity-option-card__why-title {
+  color: var(--colour-primary-action);
+  font-weight: 600;
+}
+
+.activity-option-card__reasons {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: var(--colour-text-muted);
+}
+
+.activity-option-card__reasons > span {
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
+  text-align: left;
+}
+
+.activity-option-card__reasons > span::before {
+  width: 5px;
+  height: 5px;
+  flex: 0 0 5px;
+  margin-top: 4px;
+  border-radius: 50%;
+  background: var(--colour-selection);
+  content: "";
 }
 
 .primary-action {

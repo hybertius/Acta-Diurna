@@ -2,10 +2,12 @@
 
 ## Home
 
-- **Purpose:** Show the current week and the next scheduled activity.
+- **Purpose:** Show the current week, explain planned-day markers, and surface
+  the next scheduled activity.
 - **Entry:** Initial page load or successful booking.
 - **Actions:** Open available times.
-- **States:** No activity scheduled; upcoming activity scheduled.
+- **States:** No activity scheduled; upcoming activity scheduled. Filled pebble
+  markers indicate days with a planned activity.
 
 ## Available times
 
@@ -14,6 +16,8 @@
 - **Actions:** Select one slot and confirm.
 - **States:** No selection; selected slot; no sample slots remaining.
 - **Rules:** Confirmation is disabled until one available slot is selected.
+  When all sample slots are booked, a confirmed reset clears locally saved
+  bookings and returns to the available-time choices.
 
 ## Choose activity
 
@@ -23,8 +27,9 @@
 - **Actions:** Select one activity and continue to confirmation.
 - **States:** Recommended activity identified; selected activity.
 - **Rules:** Choices remain grouped by category. The recommendation has a
-  visible label and explanation. The selected state must not rely on colour
-  alone.
+  visible label and explains its time fit, equipment needs, and known intensity.
+  Every activity has a short, descriptive line. The selected state must not
+  rely on colour alone.
 
 ## Confirm activity
 
@@ -40,3 +45,9 @@
 - Confirmed bookings are saved in browser `localStorage`.
 - On reload, Home reads the saved bookings and displays the next upcoming one.
 - This milestone uses local sample data and does not connect to a real calendar.
+
+## Keyboard focus
+
+- Moving to another screen places focus on that screen's heading, except after
+  saving a booking, when focus moves to Home's primary action.
+- Re-rendering a selected time or activity keeps focus on the selected card.

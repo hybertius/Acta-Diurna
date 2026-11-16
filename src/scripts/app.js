@@ -122,6 +122,13 @@ function renderStorageWarning() {
     : "";
 }
 
+function focusTarget(selector) {
+  const target = appRoot.querySelector(selector);
+  if (target instanceof HTMLElement) {
+    target.focus();
+  }
+}
+
 function renderCalendar() {
   const monday = domain.startOfWeek(new Date());
   const labels = ["Mån", "Tis", "Ons", "Tor", "Fre", "Lör", "Sön"];
@@ -148,6 +155,10 @@ function renderCalendar() {
           })
           .join("")}
       </div>
+      <p class="week-calendar__legend">
+        <span class="week-calendar__marker is-active" aria-hidden="true"></span>
+        <span>Planerad aktivitet</span>
+      </p>
     </section>
   `;
 }
@@ -215,7 +226,7 @@ function renderTimeScreen() {
   appRoot.innerHTML = `
     ${renderHeader()}
     <section class="time-screen" aria-labelledby="time-heading" data-node-id="197:387">
-      <h2 class="screen-title-pill" id="time-heading">${availableSlots.length > 0 ? "Lediga tider" : "Inga lediga tider"}</h2>
+      <h2 class="screen-title-pill" id="time-heading" tabindex="-1">${availableSlots.length > 0 ? "Lediga tider" : "Inga lediga tider"}</h2>
       ${availableSlots.length > 0 ? '<p class="time-screen__hint">Välj en tid som passar dig.</p>' : ""}
       ${renderStorageWarning()}
       ${
@@ -233,7 +244,7 @@ function renderTimeScreen() {
               <img class="empty-state__illustration" src="../assets/empty-state-sloth.png" alt="">
               <p class="empty-message">Mycket planerat denna vecka. Ta det lugnt 🦥</p>
             </div>
-            <button class="primary-action" type="button" data-action="return-home">Till startsidan</button>
+            <button class="primary-action" type="button" data-action="reset-plan">Återställ exempelplan</button>
           `
       }
     </section>
@@ -248,7 +259,10 @@ function renderActivityCard(activity, recommendation) {
     activity.name,
     `${activity.durationMinutes} minuter`,
     activity.environment,
-    recommended ? `Förslag. ${recommendation.reason}` : "",
+    activity.description,
+    recommended
+      ? `Förslag. Varför det här förslaget? ${recommendation.reasons.join(" ")}`
+      : activity.equipmentReason,
   ].filter(Boolean).join(", ");
 
   return `
@@ -265,7 +279,20 @@ function renderActivityCard(activity, recommendation) {
         <span class="activity-option-card__content">
           <span class="activity-option-card__title">${activity.name}</span>
           <span class="activity-option-card__description">${activity.durationMinutes} min · ${activity.environment}</span>
-          ${recommended ? '<span class="activity-option-card__recommendation">Förslag · passar din tid</span>' : ""}
+          <span class="activity-option-card__personality">${activity.description}</span>
+          ${
+            recommended
+              ? `
+                <span class="activity-option-card__recommendation">Förslag</span>
+                <span class="activity-option-card__why">
+                  <span class="activity-option-card__why-title">Varför det här förslaget?</span>
+                  <span class="activity-option-card__reasons">
+                    ${recommendation.reasons.map((reason) => `<span>${reason}</span>`).join("")}
+                  </span>
+                </span>
+              `
+              : ""
+          }
         </span>
         <span class="selection-indicator${selected ? " is-selected" : ""}" aria-hidden="true">
           <img src="../assets/selection-activity.svg" alt="">
@@ -290,7 +317,7 @@ function renderActivityScreen() {
   appRoot.innerHTML = `
     ${renderHeader()}
     <section class="activity-screen" aria-labelledby="activity-heading" data-node-id="139:156">
-      <h2 class="screen-title-pill" id="activity-heading">Välj aktivitet</h2>
+      <h2 class="screen-title-pill" id="activity-heading" tabindex="-1">Välj aktivitet</h2>
       <p class="activity-screen__hint">Pass som ryms på ${selectedTime.durationMinutes} minuter. Välj det som känns lagom.</p>
       ${renderStorageWarning()}
       <div class="activity-groups">
@@ -327,7 +354,7 @@ function renderConfirmationScreen() {
   appRoot.innerHTML = `
     ${renderHeader()}
     <section class="confirmation-screen" aria-labelledby="confirmation-heading" data-node-id="164:165">
-      <h2 class="confirmation-screen__heading" id="confirmation-heading">Din plan</h2>
+      <h2 class="confirmation-screen__heading" id="confirmation-heading" tabindex="-1">Din plan</h2>
       ${renderStorageWarning()}
       <article class="confirmed-activity">
         <img class="confirmed-activity__icon" src="../assets/activity-confirmed.svg" alt="">
@@ -382,6 +409,7 @@ appRoot.addEventListener("click", (event) => {
         ? "Välj en tid som passar dig."
         : "Mycket planerat denna vecka. Ta det lugnt 🦥";
       render();
+      focusTarget("#time-heading");
       break;
     case "select-time": {
       const slot = getTimeSlot(actionButton.dataset.timeId);
@@ -391,6 +419,7 @@ appRoot.addEventListener("click", (event) => {
       state.selectedTimeId = slot.id;
       statusRegion.textContent = `Tid vald: ${formatWeekday(slot.date)} ${slot.time}. Välj ett pass som känns lagom.`;
       render();
+      focusTarget('.time-slot-card[aria-pressed="true"]');
       break;
     }
     case "confirm-time":
@@ -401,6 +430,7 @@ appRoot.addEventListener("click", (event) => {
       state.screen = "activities";
       statusRegion.textContent = "Du kan välja förslaget eller ett annat pass som passar dig.";
       render();
+      focusTarget("#activity-heading");
       break;
     case "select-activity": {
       const activity = getActivity(actionButton.dataset.activityId);
@@ -410,6 +440,7 @@ appRoot.addEventListener("click", (event) => {
       state.selectedActivityId = activity.id;
       statusRegion.textContent = `Du valde ${activity.name}.`;
       render();
+      focusTarget('.activity-option-card[aria-pressed="true"]');
       break;
     }
     case "confirm-activity":
@@ -419,6 +450,7 @@ appRoot.addEventListener("click", (event) => {
       state.screen = "confirmation";
       statusRegion.textContent = "Ta en titt på planen. Bekräfta när du är redo.";
       render();
+      focusTarget("#confirmation-heading");
       break;
     case "confirm-booking": {
       const slot = getTimeSlot(state.selectedTimeId);
@@ -427,6 +459,7 @@ appRoot.addEventListener("click", (event) => {
         state.storageWarning = "Den tiden är inte längre ledig. Välj en annan tid.";
         state.screen = "times";
         render();
+        focusTarget("#time-heading");
         return;
       }
 
@@ -439,6 +472,7 @@ appRoot.addEventListener("click", (event) => {
       const updatedActivities = [...state.scheduledActivities, scheduledActivity];
       if (!saveScheduledActivities(updatedActivities)) {
         render();
+        focusTarget('[data-action="confirm-booking"]');
         return;
       }
 
@@ -448,11 +482,25 @@ appRoot.addEventListener("click", (event) => {
       state.screen = "home";
       statusRegion.textContent = `${activity.name} planerad ${formatWeekday(slot.date)} ${slot.time}.`;
       render();
+      focusTarget('[data-action="show-times"]');
       break;
     }
-    case "return-home":
-      state.screen = "home";
+    case "reset-plan":
+      if (!window.confirm("Återställa exempelplanen? Alla sparade aktiviteter i den här webbläsaren tas bort.")) {
+        break;
+      }
+      if (!saveScheduledActivities([])) {
+        render();
+        focusTarget('[data-action="reset-plan"]');
+        break;
+      }
+      state.scheduledActivities = [];
+      state.selectedTimeId = null;
+      state.selectedActivityId = null;
+      state.screen = "times";
+      statusRegion.textContent = "Exempelplanen återställd. Välj en tid som passar dig.";
       render();
+      focusTarget("#time-heading");
       break;
     default:
       throw new Error(`Unknown action: ${actionButton.dataset.action}`);

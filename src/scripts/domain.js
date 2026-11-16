@@ -8,6 +8,8 @@ const activityGroups = [
         durationMinutes: 20,
         environment: "Utomhus",
         equipment: "Cykel",
+        description: "En kort cykeltur utomhus.",
+        equipmentReason: "Du behöver en cykel.",
         icon: "../assets/activity-option.svg",
       },
       {
@@ -16,6 +18,8 @@ const activityGroups = [
         durationMinutes: 20,
         environment: "Utomhus",
         equipment: "Ingen utrustning",
+        description: "En promenad i din egen takt.",
+        equipmentReason: "Ingen utrustning behövs.",
         icon: "../assets/activity-option.svg",
       },
     ],
@@ -29,6 +33,9 @@ const activityGroups = [
         durationMinutes: 25,
         environment: "Inomhus",
         equipment: "Maskin",
+        description: "Jämn rörelse i ett tempo du väljer.",
+        equipmentReason: "Du behöver tillgång till en crosstrainer.",
+        effortReason: "Låg intensitet.",
         icon: "../assets/activity-option.svg",
       },
       {
@@ -37,6 +44,9 @@ const activityGroups = [
         durationMinutes: 20,
         environment: "Inomhus",
         equipment: "Ingen utrustning",
+        description: "Bra när du vill röra på dig utan utrustning.",
+        equipmentReason: "Ingen utrustning behövs.",
+        effortReason: "Låg intensitet.",
         icon: "../assets/activity-option.svg",
       },
     ],
@@ -103,7 +113,11 @@ function getRecommendations(timeSlot) {
     .map((activity) => ({
       activity,
       score: 100 - (timeSlot.durationMinutes - activity.durationMinutes) * 2,
-      reason: `Ett pass på ${activity.durationMinutes} min ryms inom din ${timeSlot.durationMinutes}-minuterslucka.`,
+      reasons: [
+        `Passar bäst i din lediga tid (${activity.durationMinutes} av ${timeSlot.durationMinutes} min).`,
+        activity.equipmentReason,
+        ...(activity.effortReason ? [activity.effortReason] : []),
+      ],
     }))
     .sort(
       (left, right) =>

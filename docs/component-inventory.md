@@ -22,14 +22,14 @@ design history, but Frame 3 is no longer the sole implementation target.
 
 | Component | Responsibility | Variants / states | Frame usage |
 | --- | --- | --- | --- |
-| `WeekCalendar` | Shows the current week, weekday labels, dates, and small pebble markers for scheduled activities. | Current week; day with or without activity; selected day if interaction requires it. | Frame 1 |
+| `WeekCalendar` | Shows the current week, weekday labels, dates, and a legend for small pebble markers on days with scheduled activities. | Current week; day with or without activity; selected day if interaction requires it. | Frame 1 |
 | `UpcomingActivityCard` | Summarizes the next scheduled activity with an icon or visual marker and concise activity/time text. | Populated; optional activity icon. | Frame 1 |
 | `AvailabilitySection` | Groups available time choices under a section heading. | One or more selectable time slots. | Frame 2 |
 | `TimeSlotCard` | Shows a time option and communicates its selection state. | Available, selected; selection marker shown as appropriate. | Frame 2 |
 | `SelectedActivitySummary` | Confirms the chosen activity and its details (day/time, duration, activity type, equipment). | Populated selection. | Frame 4 |
 | `ActivityGroup` | Groups related activity options under a semantic category heading. | Populated group. | Frame 3 |
-| `ActivityOptionCard` | Presents one activity option for comparison and selection. Frame 3 should render the repeated options from activity data rather than duplicate bespoke markup. | Default; selectable; selected; optional intensity/category detail. | Frame 3 (four cards in audited hierarchy); Frame 4 alternatives; Frame 5 suggested alternatives |
-| `EmptyAvailabilityState` | Explains that all sample times are planned, shows the sloth illustration, and offers a return-home action. | No available times. | Frame 5 |
+| `ActivityOptionCard` | Presents an activity with a short personality description and selection control. The recommended option also explains why it fits the selected time. Frame 3 should render repeated options from activity data rather than duplicate bespoke markup. | Default; selectable; selected; recommended with duration, equipment, and effort reasons. | Frame 3 (four cards in audited hierarchy); Frame 4 alternatives; Frame 5 suggested alternatives |
+| `EmptyAvailabilityState` | Explains that all sample times are planned, shows the sloth illustration, and offers a confirmed reset of locally saved sample bookings. | No available times; reset cancelled; sample plan restored. | Frame 5 |
 
 ## Frame 3 composition
 
