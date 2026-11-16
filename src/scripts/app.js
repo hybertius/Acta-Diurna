@@ -1,9 +1,11 @@
 import { trainingPlannerDomain as domain } from "./domain.js";
 
 const STORAGE_KEY = "training-planner.scheduled-activities.v1";
+const PREFERENCES_STORAGE_KEY = "training-planner.user-preferences.v1";
 const appRoot = document.querySelector("#app");
 const statusRegion = document.querySelector("#app-status");
 let startupStorageWarning = null;
+let startupPreferencesWarning = null;
 
 if (
   !domain ||
@@ -20,7 +22,11 @@ const state = {
   selectedTimeId: null,
   selectedActivityId: null,
   scheduledActivities: loadScheduledActivities(),
+  energyLevel: null,
+  userPreferences: loadUserPreferences(),
+  preferencesPanelOpen: false,
   storageWarning: startupStorageWarning,
+  preferencesWarning: startupPreferencesWarning,
 };
 
 function isValidStoredActivity(item) {
@@ -60,6 +66,71 @@ function loadScheduledActivities() {
   }
 }
 
+function getDefaultUserPreferences() {
+  return { location: null, equipment: null };
+}
+
+function isValidStoredPreferences(value) {
+  if (value === null || typeof value !== "object") {
+    return false;
+  }
+
+  const validLocation =
+    value.location === null ||
+    Object.prototype.hasOwnProperty.call(domain.locationLabels, value.location);
+  const validEquipment =
+    value.equipment === null ||
+    (Array.isArray(value.equipment) &&
+      value.equipment.every((item) =>
+        Object.prototype.hasOwnProperty.call(domain.equipmentLabels, item),
+      ) &&
+      new Set(value.equipment).size === value.equipment.length);
+
+  return (
+    value.version === 1 &&
+    validLocation &&
+    validEquipment
+  );
+}
+
+function loadUserPreferences() {
+  try {
+    const savedValue = window.localStorage.getItem(PREFERENCES_STORAGE_KEY);
+    if (savedValue === null) {
+      return getDefaultUserPreferences();
+    }
+
+    const parsedValue = JSON.parse(savedValue);
+    if (!isValidStoredPreferences(parsedValue)) {
+      throw new Error("Saved user preferences have an unexpected format.");
+    }
+
+    return {
+      location: parsedValue.location,
+      equipment: parsedValue.equipment === null ? null : [...parsedValue.equipment],
+    };
+  } catch (error) {
+    console.error("Unable to load saved user preferences.", error);
+    startupPreferencesWarning = "Det gick inte att läsa sparade preferenser. Dina val kan behöva anges igen.";
+    return getDefaultUserPreferences();
+  }
+}
+
+function saveUserPreferences(preferences) {
+  try {
+    window.localStorage.setItem(
+      PREFERENCES_STORAGE_KEY,
+      JSON.stringify({ version: 1, ...preferences }),
+    );
+    state.preferencesWarning = null;
+    return true;
+  } catch (error) {
+    console.error("Unable to save user preferences.", error);
+    state.preferencesWarning = "Det gick inte att spara preferenserna. Kontrollera webbläsarens lagring och försök igen.";
+    return false;
+  }
+}
+
 function saveScheduledActivities(items) {
   try {
     window.localStorage.setItem(
@@ -81,6 +152,11 @@ function getActivity(activityId) {
 
 function getTimeSlot(slotId) {
   return timeSlots.find((slot) => slot.id === slotId) ?? null;
+}
+
+function resetBookingContext() {
+  state.energyLevel = null;
+  state.preferencesPanelOpen = false;
 }
 
 function getAvailableTimeSlots() {
@@ -117,9 +193,10 @@ function renderHeader() {
 }
 
 function renderStorageWarning() {
-  return state.storageWarning
-    ? `<p class="storage-warning" role="alert">${state.storageWarning}</p>`
-    : "";
+  return [state.storageWarning, state.preferencesWarning]
+    .filter(Boolean)
+    .map((warning) => `<p class="storage-warning" role="alert">${warning}</p>`)
+    .join("");
 }
 
 function focusTarget(selector) {
@@ -252,6 +329,86 @@ function renderTimeScreen() {
   appRoot.dataset.screen = "times";
 }
 
+function renderContextCapture() {
+  const { location, equipment } = state.userPreferences;
+  const equipmentOptions = Object.entries(domain.equipmentLabels);
+  const noEquipmentSelected = equipment !== null && equipment.length === 0;
+
+  return `
+    <section class="activity-context" aria-label="Valfria förutsättningar">
+      <fieldset class="activity-context__energy">
+        <legend>Hur känns det idag? <span>Valfritt</span></legend>
+        <div class="activity-context__choices">
+          ${Object.entries(domain.energyLabels)
+            .map(
+              ([value, label]) => `
+                <label class="activity-context__choice" for="context-energy-${value}">
+                  <input
+                    id="context-energy-${value}"
+                    type="radio"
+                    name="booking-energy"
+                    value="${value}"
+                    data-context-field="energy"
+                    ${state.energyLevel === value ? "checked" : ""}
+                  >
+                  <span>${label}</span>
+                </label>
+              `,
+            )
+            .join("")}
+        </div>
+      </fieldset>
+      <details class="activity-context__preferences" ${state.preferencesPanelOpen ? "open" : ""}>
+        <summary>Sparade preferenser</summary>
+        <p class="activity-context__help">Plats och utrustning sparas på den här enheten och kan ändras vid ett senare tillfälle.</p>
+        <label class="activity-context__label" for="context-location">Föredragen miljö</label>
+        <select id="context-location" data-context-field="location">
+          <option value="" ${location === null ? "selected" : ""}>Ingen preferens</option>
+          ${Object.entries(domain.locationLabels)
+            .map(
+              ([value, label]) =>
+                `<option value="${value}" ${location === value ? "selected" : ""}>${label}</option>`,
+            )
+            .join("")}
+        </select>
+        <fieldset class="activity-context__equipment">
+          <legend>Utrustning du har tillgång till</legend>
+          <p class="activity-context__help">Välj utrustning, eller lämna allt omarkerat om du inte vill ange det.</p>
+          <div class="activity-context__choices">
+            ${equipmentOptions
+              .map(
+                ([value, label]) => `
+                  <label class="activity-context__choice" for="context-equipment-${value}">
+                    <input
+                      id="context-equipment-${value}"
+                      type="checkbox"
+                      value="${value}"
+                      data-context-field="equipment"
+                      ${equipment?.includes(value) ? "checked" : ""}
+                    >
+                    <span>${label}</span>
+                  </label>
+                `,
+              )
+              .join("")}
+            <label class="activity-context__choice" for="context-equipment-none">
+              <input
+                id="context-equipment-none"
+                type="checkbox"
+                value="none"
+                data-context-field="equipment"
+                ${noEquipmentSelected ? "checked" : ""}
+              >
+              <span>Ingen utrustning</span>
+            </label>
+          </div>
+        </fieldset>
+      </details>
+      <p class="activity-context__note">Energi gäller bara den här bokningen. Dina val ändrar inte förslagens ordning.</p>
+    </section>
+  `;
+}
+
 function renderActivityCard(activity, recommendation) {
   const selected = activity.id === state.selectedActivityId;
   const recommended = recommendation?.activity.id === activity.id;
@@ -310,7 +467,11 @@ function renderActivityScreen() {
     return;
   }
 
-  const recommendations = domain.getRecommendations(selectedTime);
+  const recommendations = domain.getRecommendations(selectedTime, {
+    energy: state.energyLevel,
+    location: state.userPreferences.location,
+    equipment: state.userPreferences.equipment,
+  });
   const recommendation = recommendations[0] ?? null;
   const hasSelection = getActivity(state.selectedActivityId) !== null;
 
@@ -320,6 +481,7 @@ function renderActivityScreen() {
       <h2 class="screen-title-pill" id="activity-heading" tabindex="-1">Välj aktivitet</h2>
       <p class="activity-screen__hint">Pass som ryms på ${selectedTime.durationMinutes} minuter. Välj det som känns lagom.</p>
       ${renderStorageWarning()}
+      ${renderContextCapture()}
       <div class="activity-groups">
         ${activityGroups
           .map(
@@ -390,6 +552,95 @@ function render() {
   }
 }
 
+appRoot.addEventListener("change", (event) => {
+  const control = event.target;
+  if (
+    state.screen !== "activities" ||
+    (!(control instanceof HTMLInputElement) &&
+      !(control instanceof HTMLSelectElement)) ||
+    !control.dataset.contextField
+  ) {
+    return;
+  }
+
+  if (!control.id) {
+    throw new Error("Context controls must have an id to preserve keyboard focus.");
+  }
+
+  const preferencesPanel = appRoot.querySelector(".activity-context__preferences");
+  state.preferencesPanelOpen =
+    preferencesPanel instanceof HTMLDetailsElement && preferencesPanel.open;
+
+  if (control.dataset.contextField === "energy") {
+    const energy = control.value;
+    if (!Object.prototype.hasOwnProperty.call(domain.energyLabels, energy)) {
+      return;
+    }
+
+    state.energyLevel = energy;
+    statusRegion.textContent = `${domain.energyLabels[energy]} energinivå vald för den här bokningen. Förslagens ordning är oförändrad.`;
+    renderActivityScreen();
+    focusTarget(`#${control.id}`);
+    return;
+  }
+
+  const previousPreferences = state.userPreferences;
+  const updatedPreferences = { ...previousPreferences };
+
+  if (control.dataset.contextField === "location") {
+    const location = control.value || null;
+    if (
+      location !== null &&
+      !Object.prototype.hasOwnProperty.call(domain.locationLabels, location)
+    ) {
+      return;
+    }
+    updatedPreferences.location = location;
+  } else if (control.dataset.contextField === "equipment") {
+    const noEquipmentControl = appRoot.querySelector("#context-equipment-none");
+    if (!(noEquipmentControl instanceof HTMLInputElement)) {
+      throw new Error("The no-equipment preference control is missing.");
+    }
+
+    if (control.value === "none" && control.checked) {
+      appRoot
+        .querySelectorAll('input[data-context-field="equipment"]:not(#context-equipment-none)')
+        .forEach((input) => {
+          if (input instanceof HTMLInputElement) {
+            input.checked = false;
+          }
+        });
+    } else if (control.value !== "none" && control.checked) {
+      noEquipmentControl.checked = false;
+    }
+
+    const selectedEquipment = [
+      ...appRoot.querySelectorAll('input[data-context-field="equipment"]:checked'),
+    ]
+      .filter((input) => input instanceof HTMLInputElement && input.value !== "none")
+      .map((input) => input.value);
+
+    updatedPreferences.equipment = noEquipmentControl.checked
+      ? []
+      : selectedEquipment.length > 0
+        ? selectedEquipment
+        : null;
+  } else {
+    return;
+  }
+
+  state.userPreferences = updatedPreferences;
+  if (!saveUserPreferences(updatedPreferences)) {
+    state.userPreferences = previousPreferences;
+    statusRegion.textContent = "Det gick inte att spara preferenserna. Ändringen återställdes.";
+  } else {
+    statusRegion.textContent = "Preferenserna sparades på den här enheten. De ändrar inte förslagens ordning.";
+  }
+
+  renderActivityScreen();
+  focusTarget(`#${control.id}`);
+});
+
 appRoot.addEventListener("click", (event) => {
   if (!(event.target instanceof Element)) {
     return;
@@ -402,6 +653,7 @@ appRoot.addEventListener("click", (event) => {
 
   switch (actionButton.dataset.action) {
     case "show-times":
+      resetBookingContext();
       state.selectedTimeId = null;
       state.selectedActivityId = null;
       state.screen = "times";
@@ -426,6 +678,7 @@ appRoot.addEventListener("click", (event) => {
       if (!getTimeSlot(state.selectedTimeId)) {
         return;
       }
+      resetBookingContext();
       state.selectedActivityId = null;
       state.screen = "activities";
       statusRegion.textContent = "Du kan välja förslaget eller ett annat pass som passar dig.";
@@ -479,6 +732,7 @@ appRoot.addEventListener("click", (event) => {
       state.scheduledActivities = updatedActivities;
       state.selectedTimeId = null;
       state.selectedActivityId = null;
+      resetBookingContext();
       state.screen = "home";
       statusRegion.textContent = `${activity.name} planerad ${formatWeekday(slot.date)} ${slot.time}.`;
       render();
@@ -497,6 +751,7 @@ appRoot.addEventListener("click", (event) => {
       state.scheduledActivities = [];
       state.selectedTimeId = null;
       state.selectedActivityId = null;
+      resetBookingContext();
       state.screen = "times";
       statusRegion.textContent = "Exempelplanen återställd. Välj en tid som passar dig.";
       render();

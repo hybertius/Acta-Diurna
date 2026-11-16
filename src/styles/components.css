@@ -330,6 +330,119 @@
   content: "";
 }
 
+.activity-context {
+  display: flex;
+  width: min(100%, 340px);
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  padding: var(--space-3);
+  border: 1px solid var(--colour-border-default);
+  border-radius: var(--radius-card);
+  background: var(--colour-surface);
+}
+
+.activity-context fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.activity-context legend {
+  margin: 0;
+  color: var(--colour-text);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.activity-context__energy legend span {
+  margin-left: 4px;
+  color: var(--colour-text-muted);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.activity-context__choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.activity-context__choice {
+  display: flex;
+  min-height: 36px;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 9px;
+  border: 1px solid var(--colour-border-default);
+  border-radius: 999px;
+  background: var(--colour-canvas);
+  color: var(--colour-text);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.activity-context__choice input {
+  margin: 0;
+  accent-color: var(--colour-primary-action);
+}
+
+.activity-context__preferences {
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--colour-border-default);
+}
+
+.activity-context__preferences summary {
+  color: var(--colour-primary-action);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.activity-context__label {
+  display: block;
+  margin-top: var(--space-2);
+  color: var(--colour-text);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.activity-context__preferences select {
+  width: 100%;
+  min-height: 40px;
+  margin-top: 6px;
+  padding: 6px 10px;
+  border: 1px solid var(--colour-border-default);
+  border-radius: var(--radius-control);
+  background: var(--colour-canvas);
+  color: var(--colour-text);
+}
+
+.activity-context__help,
+.activity-context__note {
+  margin: 6px 0 0;
+  color: var(--colour-text-muted);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.activity-context .activity-context__equipment {
+  margin-top: var(--space-3);
+}
+
+.activity-context__equipment .activity-context__help {
+  margin-top: 2px;
+}
+
+.activity-context input:focus-visible,
+.activity-context select:focus-visible,
+.activity-context summary:focus-visible {
+  outline: 3px solid var(--colour-selection);
+  outline-offset: 2px;
+}
+
 .primary-action {
   display: flex;
   width: min(100%, var(--screen-width));

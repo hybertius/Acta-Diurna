@@ -25,11 +25,16 @@
   choose one.
 - **Entry:** The user confirms an available time.
 - **Actions:** Select one activity and continue to confirmation.
-- **States:** Recommended activity identified; selected activity.
+- **States:** Recommended activity identified; selected activity; optional
+  booking energy selected; saved location and equipment preferences edited.
 - **Rules:** Choices remain grouped by category. The recommendation has a
   visible label and explains its time fit, equipment needs, and known intensity.
   Every activity has a short, descriptive line. The selected state must not
-  rely on colour alone.
+  rely on colour alone. The optional energy check-in applies only to the current
+  booking flow and is not persisted. Location and equipment preferences are
+  saved locally and can be edited here on a later booking. Context match
+  factors are computed for future use but are not shown to users and do not
+  change recommendation scores or order in Milestone 3B.
 
 ## Confirm activity
 

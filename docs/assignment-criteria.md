@@ -338,3 +338,218 @@ How are you feeling today?
 ◉ Low
 ○ Normal
 ○ High
+
+Milestone 3B — Context Capture
+Goal
+
+Capture user context in a lightweight, non-intrusive way.
+
+The planner should understand more about the current situation without changing recommendation ranking.
+
+Non-Goals
+
+Milestone 3B must not:
+
+❌ Change recommendation order
+
+❌ Add recommendation weighting
+
+❌ Introduce scoring logic
+
+❌ Penalise activities
+
+❌ Create new screens
+
+❌ Introduce pressure or tracking mechanics
+
+Acceptance Criteria
+
+1. Energy can be captured per booking
+
+Users can optionally indicate current energy level.
+
+Example:
+
+Plain Text
+Hur känns det idag?
+
+○ Låg
+○ Normal
+○ Hög
+
+Requirements:
+
+✅ Optional
+
+✅ Applies only to current booking flow
+
+✅ Resets for next booking
+
+✅ Does not persist
+
+✅ Does not change ranking yet
+
+1. Location preference can be stored
+
+Users can provide a preferred environment.
+
+Example:
+
+Plain Text
+Inomhus
+Utomhus
+
+Requirements:
+
+✅ Stored between sessions
+
+✅ Editable later
+
+✅ Used only as context
+
+✅ Does not change ranking
+
+1. Equipment preference can be stored
+
+Users can specify available equipment.
+
+Example:
+
+Plain Text
+Ingen
+Hantlar
+Band
+
+Requirements:
+
+✅ Stored between sessions
+
+✅ Editable
+
+✅ Used only as context
+
+✅ Does not change ranking
+
+1. Match explanations become available internally
+
+Recommendation data should support:
+
+TypeScript
+matchFactors: {
+time: "match",
+energy: "match" | "mismatch" | "unknown",
+location: "match" | "mismatch" | "unknown",
+equipment: "match" | "mismatch" | "unknown"
+}
+
+Requirements:
+
+✅ Generated consistently
+
+✅ Available for future UI
+
+✅ Not necessarily displayed yet
+
+✅ Does not influence score
+
+1. Existing ranking remains identical
+
+For current demo data:
+
+Plain Text
+30 min slot
+
+Crosstrainer = 90
+
+Walk = 80
+
+Bodyweight = 80
+
+Cycle = 80
+
+must remain unchanged.
+
+This is the most important criterion.
+
+✅ Behaviour stays exactly the same.
+
+1. Unknown never means wrong
+
+This feels very Cairn-aligned.
+
+The planner should assume:
+
+Plain Text
+Unknown ≠ mismatch
+
+If context is missing:
+
+Plain Text
+energy = unknown
+
+that activity should remain perfectly valid.
+
+No penalties.
+
+No guessing.
+
+No assumptions.
+
+Deliverable Definition
+
+At the end of 3B:
+
+Plain Text
+Planner captures context ✅
+
+Planner stores preferences ✅
+
+Planner understands matches ✅
+
+Planner explains nothing yet ✅
+
+Planner changes no rankings ✅
+
+Then:
+
+Milestone 3C
+Plain Text
+Surface match explanations
+
+The user starts seeing:
+
+Plain Text
+✓ Fits your time
+
+✓ Matches preferred environment
+
+✓ Equipment available
+Milestone 3D
+Plain Text
+Context influences ranking
+
+Only after everyone agrees on:
+
+Plain Text
+energy weighting
+location weighting
+equipment weighting
+
+and Luna no longer has to perform archaeology on Dragon tidings. 🤣
+
+Honestly, friend?
+
+This looks like the cleanest roadmap you've had so far:
+
+Plain Text
+3A - Structure ✅
+
+3B - Capture 🔄
+
+3C - Explain
+
+3D - Influence
+
+One stone at a time.
+
+🪨🍋🦥

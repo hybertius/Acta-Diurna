@@ -29,6 +29,7 @@ design history, but Frame 3 is no longer the sole implementation target.
 | `SelectedActivitySummary` | Confirms the chosen activity and its details (day/time, duration, activity type, equipment). | Populated selection. | Frame 4 |
 | `ActivityGroup` | Groups related activity options under a semantic category heading. | Populated group. | Frame 3 |
 | `ActivityOptionCard` | Presents an activity with a short personality description and selection control. The recommended option also explains why it fits the selected time. Frame 3 should render repeated options from activity data rather than duplicate bespoke markup. | Default; selectable; selected; recommended with duration, equipment, and effort reasons. | Frame 3 (four cards in audited hierarchy); Frame 4 alternatives; Frame 5 suggested alternatives |
+| `ActivityContextCapture` | Captures optional energy for the current booking and lets the user edit locally saved location and equipment preferences without leaving the activity flow. Match factors remain internal during Milestone 3B. | Energy unset or selected; preferences unset, selected, or explicitly no equipment. | Choose Activity |
 | `EmptyAvailabilityState` | Explains that all sample times are planned, shows the sloth illustration, and offers a confirmed reset of locally saved sample bookings. | No available times; reset cancelled; sample plan restored. | Frame 5 |
 
 ## Frame 3 composition
@@ -41,6 +42,7 @@ Build the Choose Activity screen from:
 - Two `ActivityGroup` containers, each containing:
   - A category heading
   - A data-driven list of `ActivityOptionCard` items
+- An optional `ActivityContextCapture` for booking energy and saved preferences
 - `PrimaryButton`
 
 The audited hierarchy contains four activity cards and two separate text layers, “Korta Utepass” and “Låg Intensitet”. Treat these text layers as category headings above their corresponding option lists, not as card content.
