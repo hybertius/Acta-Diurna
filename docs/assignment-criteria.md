@@ -553,3 +553,19 @@ Plain Text
 One stone at a time.
 
 🪨🍋🦥
+
+Milestone 3C - addendum
+
+✅ Show match explanations on the top recommendation card.
+
+✅ Unknown remains neutral.
+
+✅ No penalties.
+
+✅ No red warnings.
+
+✅ No scoring displayed.
+
+✅ Existing recommendations remain visible.
+
+✅ Alternatives remain lightweight.

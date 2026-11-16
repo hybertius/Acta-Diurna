@@ -409,16 +409,87 @@ function renderContextCapture() {
   `;
 }
 
-function renderActivityCard(activity, recommendation) {
+const matchStatusLabels = {
+  match: "Matchar",
+  mismatch: "Skiljer sig",
+  unknown: "Inte jämförd",
+};
+
+function getMatchExplanations(recommendation, selectedTime) {
+  const { activity, matchFactors } = recommendation;
+  const energyPreference = state.energyLevel;
+  const locationPreference = state.userPreferences.location;
+  const equipmentPreference = state.userPreferences.equipment;
+  const equipmentLabel = domain.equipmentLabels[activity.requiredEquipment];
+  const energyDetail =
+    matchFactors.energy === "match"
+      ? `Aktivitetens märkning (${domain.energyLabels[activity.energyLevel]}) passar din valda nivå.`
+      : matchFactors.energy === "mismatch"
+        ? `Aktiviteten är märkt ${domain.energyLabels[activity.energyLevel]}, du valde ${domain.energyLabels[energyPreference]}.`
+        : energyPreference === null
+          ? activity.energyLevel === null
+            ? "Ingen nivå vald och aktiviteten saknar energimärkning."
+            : "Ingen energinivå vald för den här bokningen."
+          : "Aktiviteten saknar energimärkning.";
+  const locationDetail =
+    matchFactors.location === "match"
+      ? `Matchar din sparade preferens (${domain.locationLabels[locationPreference]}).`
+      : matchFactors.location === "mismatch"
+        ? `Aktiviteten är ${domain.locationLabels[activity.location]}, din sparade preferens är ${domain.locationLabels[locationPreference]}.`
+        : locationPreference === null
+          ? "Ingen miljöpreferens sparad."
+          : "Aktiviteten saknar miljömärkning.";
+  const equipmentDetail =
+    activity.requiredEquipment === null
+      ? "Ingen utrustning behövs."
+      : matchFactors.equipment === "match"
+        ? `Tillgång till ${equipmentLabel} är angiven.`
+        : matchFactors.equipment === "mismatch"
+          ? equipmentPreference.length === 0
+            ? `Du har angett att du saknar utrustning; aktiviteten behöver ${equipmentLabel}.`
+            : `Tillgång till ${equipmentLabel} är inte markerad i dina preferenser.`
+          : `Tillgång till ${equipmentLabel} är inte angiven.`;
+
+  return [
+    {
+      label: "Tid",
+      status: matchFactors.time,
+      detail: `Passar bäst i din lediga tid (${activity.durationMinutes} av ${selectedTime.durationMinutes} min).`,
+    },
+    {
+      label: "Energi",
+      status: matchFactors.energy,
+      detail: energyDetail,
+    },
+    {
+      label: "Plats",
+      status: matchFactors.location,
+      detail: locationDetail,
+    },
+    {
+      label: "Utrustning",
+      status: matchFactors.equipment,
+      detail: equipmentDetail,
+    },
+  ].map((factor) => ({
+    ...factor,
+    statusLabel: matchStatusLabels[factor.status] ?? matchStatusLabels.unknown,
+  }));
+}
+
+function renderActivityCard(activity, recommendation, selectedTime) {
   const selected = activity.id === state.selectedActivityId;
   const recommended = recommendation?.activity.id === activity.id;
+  const matchExplanations = recommended
+    ? getMatchExplanations(recommendation, selectedTime)
+    : [];
   const ariaLabel = [
     activity.name,
     `${activity.durationMinutes} minuter`,
     activity.environment,
     activity.description,
     recommended
-      ? `Förslag. Varför det här förslaget? ${recommendation.reasons.join(" ")}`
+      ? `Förslag. Varför det här förslaget? ${matchExplanations.map(({ label, statusLabel, detail }) => `${label}: ${statusLabel}. ${detail}`).join(" ")}`
       : activity.equipmentReason,
   ].filter(Boolean).join(", ");
 
@@ -443,8 +514,18 @@ function renderActivityCard(activity, recommendation) {
                 <span class="activity-option-card__recommendation">Förslag</span>
                 <span class="activity-option-card__why">
                   <span class="activity-option-card__why-title">Varför det här förslaget?</span>
-                  <span class="activity-option-card__reasons">
-                    ${recommendation.reasons.map((reason) => `<span>${reason}</span>`).join("")}
+                  <span class="activity-match-factors">
+                    ${matchExplanations
+                      .map(
+                        ({ label, status, statusLabel, detail }) => `
+                          <span class="activity-match-factor" data-status="${status}">
+                            <span class="activity-match-factor__label">${label}</span>
+                            <span class="activity-match-factor__status">${statusLabel}</span>
+                            <span class="activity-match-factor__detail">${detail}</span>
+                          </span>
+                        `,
+                      )
+                      .join("")}
                   </span>
                 </span>
               `
@@ -489,7 +570,7 @@ function renderActivityScreen() {
               <section class="activity-group" aria-labelledby="group-${group.activities[0].id}">
                 <h3 id="group-${group.activities[0].id}">${group.name}</h3>
                 <ul class="activity-option-list">
-                  ${group.activities.map((activity) => renderActivityCard(activity, recommendation)).join("")}
+                  ${group.activities.map((activity) => renderActivityCard(activity, recommendation, selectedTime)).join("")}
                 </ul>
               </section>
             `,

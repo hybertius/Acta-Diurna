@@ -306,28 +306,35 @@
   font-weight: 600;
 }
 
-.activity-option-card__reasons {
+.activity-match-factors {
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  color: var(--colour-text-muted);
+  gap: 4px;
 }
 
-.activity-option-card__reasons > span {
-  display: flex;
-  align-items: flex-start;
-  gap: 5px;
+.activity-match-factor {
+  display: grid;
+  grid-template-columns: 58px 76px minmax(0, 1fr);
+  gap: 4px 6px;
   text-align: left;
 }
 
-.activity-option-card__reasons > span::before {
-  width: 5px;
-  height: 5px;
-  flex: 0 0 5px;
-  margin-top: 4px;
-  border-radius: 50%;
-  background: var(--colour-selection);
-  content: "";
+.activity-match-factor__label,
+.activity-match-factor__status {
+  font-weight: 600;
+}
+
+.activity-match-factor__status {
+  color: var(--colour-text-muted);
+}
+
+.activity-match-factor[data-status="match"] .activity-match-factor__status {
+  color: var(--colour-primary-action);
+}
+
+.activity-match-factor__detail {
+  min-width: 0;
+  color: var(--colour-text-muted);
 }
 
 .activity-context {
