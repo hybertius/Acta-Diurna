@@ -104,9 +104,18 @@
 
 .upcoming-card__icon,
 .time-slot-card__icon,
-.activity-option-card__icon,
 .confirmed-activity__icon {
   flex: 0 0 38px;
+}
+
+.activity-option-card__icon {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+}
+
+.activity-option-card__icon--recommended {
+  display: none;
 }
 
 .upcoming-card__content,

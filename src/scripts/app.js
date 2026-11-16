@@ -404,7 +404,7 @@ function renderContextCapture() {
           </div>
         </fieldset>
       </details>
-      <p class="activity-context__note">Energi gäller bara den här bokningen. Dina val ändrar inte förslagens ordning.</p>
+      <p class="activity-context__note">Energi gäller bara den här bokningen. Matchningar kan påverka vilket pass som föreslås.</p>
     </section>
   `;
 }
@@ -505,7 +505,11 @@ function renderActivityCard(activity, recommendation, selectedTime) {
         aria-pressed="${selected}"
         aria-label="${ariaLabel}"
       >
-        <img class="activity-option-card__icon" src="${activity.icon}" alt="">
+        <img
+          class="activity-option-card__icon${recommended ? " activity-option-card__icon--recommended" : ""}"
+          src="${activity.icon}"
+          alt=""
+        >
         <span class="activity-option-card__content">
           <span class="activity-option-card__title">${activity.name}</span>
           <span class="activity-option-card__description">${activity.durationMinutes} min · ${activity.environment}</span>
@@ -555,6 +559,9 @@ function renderActivityScreen() {
     location: state.userPreferences.location,
     equipment: state.userPreferences.equipment,
   });
+  const recommendationRanks = new Map(
+    recommendations.map(({ activity }, index) => [activity.id, index]),
+  );
   const recommendation = recommendations[0] ?? null;
   const hasSelection = getActivity(state.selectedActivityId) !== null;
 
@@ -572,7 +579,27 @@ function renderActivityScreen() {
               <section class="activity-group" aria-labelledby="group-${group.activities[0].id}">
                 <h3 id="group-${group.activities[0].id}">${group.name}</h3>
                 <ul class="activity-option-list">
-                  ${group.activities.map((activity) => renderActivityCard(activity, recommendation, selectedTime)).join("")}
+                  ${group.activities
+                    .map((activity, originalIndex) => ({
+                      activity,
+                      rank: recommendationRanks.get(activity.id),
+                      originalIndex,
+                    }))
+                    .sort((left, right) => {
+                      if (left.rank === undefined) {
+                        return right.rank === undefined
+                          ? left.originalIndex - right.originalIndex
+                          : 1;
+                      }
+                      if (right.rank === undefined) {
+                        return -1;
+                      }
+                      return left.rank - right.rank;
+                    })
+                    .map(({ activity }) =>
+                      renderActivityCard(activity, recommendation, selectedTime),
+                    )
+                    .join("")}
                 </ul>
               </section>
             `,
@@ -661,7 +688,7 @@ appRoot.addEventListener("change", (event) => {
     }
 
     state.energyLevel = energy;
-    statusRegion.textContent = `${domain.energyLabels[energy]} energinivå vald för den här bokningen. Förslagens ordning är oförändrad.`;
+    statusRegion.textContent = `${domain.energyLabels[energy]} energinivå vald för den här bokningen. Matchningar kan påverka vilket pass som föreslås.`;
     renderActivityScreen();
     focusTarget(`#${control.id}`);
     return;
@@ -717,7 +744,7 @@ appRoot.addEventListener("change", (event) => {
     state.userPreferences = previousPreferences;
     statusRegion.textContent = "Det gick inte att spara preferenserna. Ändringen återställdes.";
   } else {
-    statusRegion.textContent = "Preferenserna sparades på den här enheten. De ändrar inte förslagens ordning.";
+    statusRegion.textContent = "Preferenserna sparades på den här enheten. Matchningar kan påverka vilket pass som föreslås.";
   }
 
   renderActivityScreen();

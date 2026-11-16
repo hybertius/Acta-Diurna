@@ -30,12 +30,20 @@
 - **Rules:** Choices remain grouped by category. The recommendation has a
   visible label. In Milestone 3C, only the top recommendation explains time,
   energy, location, and equipment as match, mismatch, or not compared; an
-  unknown factor is never presented as a mismatch. These explanations do not
-  change recommendation scores or order. Every activity has a short,
-  descriptive line. The selected state must not rely on colour alone. The
-  optional energy check-in applies only to the current booking flow and is not
-  persisted. Location and equipment preferences are saved locally and can be
-  edited here on a later booking.
+  unknown factor is never presented as a mismatch, and the explanations do not
+  themselves change ranking. In Milestone 3D, match-only bonuses are added to
+  the existing duration score: energy +2, location +1, and equipment +1.
+  Mismatch and unknown add nothing; no scores are displayed. Separately from
+  scoring, equipment-dependent activities are eligible for recommendation only
+  when the required equipment is explicitly marked available. Otherwise, they
+  remain visible and selectable as alternatives without the recommendation
+  label. Activities remain grouped by category and are sorted by rank within
+  each group. Only the top-ranked eligible activity receives the recommendation
+  label and explanations; alternatives remain visible and lightweight. Every
+  activity has a short, descriptive line. The selected state must not rely on
+  colour alone. The optional energy check-in applies only to the current
+  booking flow and is not persisted. Location and equipment preferences are
+  saved locally and can be edited here on a later booking.
 
 ## Confirm activity
 

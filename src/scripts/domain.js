@@ -82,6 +82,11 @@ const equipmentLabels = {
 const energyLevels = new Set(Object.keys(energyLabels));
 const locations = new Set(Object.keys(locationLabels));
 const equipmentTypes = new Set(Object.keys(equipmentLabels));
+const contextMatchBonuses = {
+  energy: 2,
+  location: 1,
+  equipment: 1,
+};
 const slotDefinitions = [
   { weekdayOffset: 1, time: "10:30" },
   { weekdayOffset: 2, time: "10:30" },
@@ -165,16 +170,28 @@ function getMatchFactors(activity, userState) {
   };
 }
 
+function getContextMatchBonus(matchFactors) {
+  return Object.entries(contextMatchBonuses).reduce(
+    (bonus, [factor, weight]) =>
+      bonus + (matchFactors[factor] === "match" ? weight : 0),
+    0,
+  );
+}
+
 function getRecommendations(timeSlot, userState = {}) {
   const context = userState && typeof userState === "object" ? userState : {};
 
   return activities
     .filter((activity) => activity.durationMinutes <= timeSlot.durationMinutes)
     .map((activity) => {
+      const matchFactors = getMatchFactors(activity, context);
       return {
         activity,
-        score: 100 - (timeSlot.durationMinutes - activity.durationMinutes) * 2,
-        matchFactors: getMatchFactors(activity, context),
+        score:
+          100 -
+          (timeSlot.durationMinutes - activity.durationMinutes) * 2 +
+          getContextMatchBonus(matchFactors),
+        matchFactors,
         reasons: [
           `Passar bäst i din lediga tid (${activity.durationMinutes} av ${timeSlot.durationMinutes} min).`,
           activity.equipmentReason,
@@ -182,6 +199,10 @@ function getRecommendations(timeSlot, userState = {}) {
         ],
       };
     })
+    .filter(
+      ({ activity, matchFactors }) =>
+        activity.requiredEquipment === null || matchFactors.equipment === "match",
+    )
     .sort(
       (left, right) =>
         right.score - left.score || left.activity.name.localeCompare(right.activity.name),
