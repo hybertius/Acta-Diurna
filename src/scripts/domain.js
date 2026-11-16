@@ -1,6 +1,6 @@
 const activityGroups = [
   {
-    name: "Korta Utepass",
+    name: "Korta utepass",
     activities: [
       {
         id: "cycle",
@@ -21,7 +21,7 @@ const activityGroups = [
     ],
   },
   {
-    name: "Låg Intensitet",
+    name: "Låg intensitet",
     activities: [
       {
         id: "cross-trainer",
@@ -103,7 +103,7 @@ function getRecommendations(timeSlot) {
     .map((activity) => ({
       activity,
       score: 100 - (timeSlot.durationMinutes - activity.durationMinutes) * 2,
-      reason: `${activity.durationMinutes} min är närmast din ${timeSlot.durationMinutes} minuterslucka.`,
+      reason: `Ett pass på ${activity.durationMinutes} min ryms inom din ${timeSlot.durationMinutes}-minuterslucka.`,
     }))
     .sort(
       (left, right) =>

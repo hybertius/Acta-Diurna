@@ -13,8 +13,8 @@ body {
   margin: 0;
   display: flex;
   justify-content: center;
-  background: var(--colour-canvas);
-  color: var(--colour-text-on-dark);
+  background: var(--colour-page);
+  color: var(--colour-text);
   font-family: Inter, system-ui, sans-serif;
 }
 
@@ -35,7 +35,7 @@ button:disabled {
 }
 
 a {
-  color: var(--colour-selection);
+  color: var(--colour-primary-action);
 }
 
 .visually-hidden {

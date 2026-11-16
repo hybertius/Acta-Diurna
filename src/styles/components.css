@@ -6,8 +6,9 @@
   justify-content: center;
   gap: var(--space-2);
   padding: var(--space-5) var(--space-2);
-  border-radius: 60px;
-  background: var(--colour-surface);
+  border: 1px solid var(--colour-border-default);
+  border-radius: 36px;
+  background: var(--colour-surface-muted);
   color: var(--colour-text);
   text-align: center;
 }
@@ -15,17 +16,29 @@
 .week-calendar h2 {
   margin: 0;
   font-size: 16px;
-  font-weight: 700;
-  letter-spacing: 3px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 .week-calendar__days {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
   align-items: center;
 }
 
+.week-calendar__days::before {
+  position: absolute;
+  top: 81%;
+  right: 7%;
+  left: 7%;
+  border-top: 1px dashed var(--colour-border-default);
+  content: "";
+}
+
 .week-calendar__day {
+  position: relative;
+  z-index: 1;
   display: flex;
   min-width: 0;
   flex-direction: column;
@@ -35,7 +48,7 @@
 
 .week-calendar__label {
   font-size: 14px;
-  letter-spacing: 1px;
+  letter-spacing: 0.4px;
 }
 
 .week-calendar__date {
@@ -44,14 +57,18 @@
 }
 
 .week-calendar__marker {
-  width: 9px;
-  height: 9px;
-  border: 1px solid var(--colour-text);
-  border-radius: 50%;
+  width: 12px;
+  height: 8px;
+  border: 1px solid var(--colour-border-default);
+  border-radius: 64% 36% 58% 42% / 48% 58% 42% 52%;
+  background: var(--colour-surface-muted);
+  transform: rotate(-12deg);
 }
 
 .week-calendar__marker.is-active {
-  background: var(--colour-text);
+  border-color: var(--colour-primary-action);
+  background: var(--colour-primary-action);
+  box-shadow: inset 1px 1px 0 rgb(255 255 255 / 28%), 0 1px 1px rgb(41 56 47 / 12%);
 }
 
 .upcoming-card,
@@ -62,10 +79,12 @@
   align-items: center;
   gap: var(--space-3);
   padding: var(--space-3);
+  border: 1px solid var(--colour-border-default);
   border-radius: var(--radius-card);
   background: var(--colour-surface);
   color: var(--colour-text);
   text-align: center;
+  box-shadow: 0 6px 20px rgb(41 56 47 / 5%);
 }
 
 .upcoming-card__icon,
@@ -91,8 +110,9 @@
 }
 
 .upcoming-card__eyebrow {
+  color: var(--colour-text-muted);
   font-size: 12px;
-  letter-spacing: 1px;
+  letter-spacing: 0.6px;
 }
 
 .upcoming-card__title,
@@ -100,13 +120,13 @@
 .confirmed-activity__time {
   font-size: 16px;
   font-weight: 600;
-  letter-spacing: 1.4px;
+  letter-spacing: 0.3px;
 }
 
 .upcoming-card__details,
 .confirmed-activity__details {
   font-size: 12px;
-  letter-spacing: 0.6px;
+  letter-spacing: 0.2px;
 }
 
 .screen-title-pill {
@@ -117,11 +137,12 @@
   justify-content: center;
   margin: 0;
   padding: var(--space-2);
-  border-radius: 20px;
-  background: var(--colour-surface);
+  border-radius: 16px;
+  background: transparent;
   color: var(--colour-text);
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
   text-align: center;
 }
 
@@ -144,7 +165,7 @@
   align-items: center;
   gap: var(--space-2);
   padding: var(--space-3);
-  border: 0;
+  border: 1px solid var(--colour-border-default);
   border-radius: var(--radius-card);
   background: var(--colour-surface);
   color: var(--colour-text);
@@ -154,6 +175,7 @@
 
 .time-slot-card[aria-pressed="true"],
 .activity-option-card[aria-pressed="true"] {
+  border-color: var(--colour-selection);
   background: var(--colour-surface-selected);
 }
 
@@ -182,7 +204,7 @@
 .time-slot-card__content {
   font-size: 16px;
   font-weight: 600;
-  letter-spacing: 1.6px;
+  letter-spacing: 0.6px;
   line-height: 30px;
 }
 
@@ -196,7 +218,7 @@
 }
 
 .selection-indicator.is-selected {
-  border: 2px solid var(--colour-text);
+  border: 2px solid var(--colour-primary-action);
   border-radius: 50%;
   background: var(--colour-selection-active);
 }
@@ -206,11 +228,12 @@
 }
 
 .selection-indicator.is-selected::after {
-  color: var(--colour-text);
-  content: "✓";
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 1;
+  width: 7px;
+  height: 12px;
+  border: solid var(--colour-text);
+  border-width: 0 2px 2px 0;
+  content: "";
+  transform: rotate(45deg);
 }
 
 .activity-option-card__content {
@@ -222,20 +245,25 @@
 .activity-option-card__title {
   font-size: 16px;
   font-weight: 600;
-  letter-spacing: 1.3px;
+  letter-spacing: 0.4px;
 }
 
 .activity-option-card__description {
+  color: var(--colour-text-muted);
   font-size: 12px;
   font-weight: 500;
-  letter-spacing: 0.8px;
+  letter-spacing: 0.3px;
 }
 
 .activity-option-card__recommendation {
-  color: #0c2950;
+  align-self: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--colour-surface-muted);
+  color: var(--colour-primary-action);
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.25px;
+  letter-spacing: 0.1px;
 }
 
 .primary-action {
@@ -248,17 +276,26 @@
   margin: 0;
   padding: var(--space-2);
   border: 0;
-  border-radius: 20px;
-  background: var(--colour-surface);
-  color: var(--colour-text);
-  font-size: 20px;
-  font-weight: 700;
+  border-radius: 18px;
+  background: var(--colour-primary-action);
+  color: var(--colour-text-on-primary);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
   text-align: center;
   cursor: pointer;
 }
 
 .primary-action:not(:disabled):hover {
-  background: var(--colour-accent-light);
+  background: var(--colour-primary-box);
+}
+
+.primary-action:disabled {
+  border: 1px solid var(--colour-border-default);
+  background: var(--colour-surface-muted);
+  color: var(--colour-text-muted);
+  cursor: not-allowed;
+  opacity: 1;
 }
 
 .storage-warning {
@@ -268,24 +305,51 @@
   border: 1px solid var(--colour-error);
   border-radius: var(--radius-control);
   background: var(--colour-error-outline);
-  color: var(--colour-surface);
+  color: var(--colour-text);
   font-size: 14px;
 }
 
 .empty-message {
   width: min(100% - 16px, 340px);
   margin: var(--space-6) auto;
-  color: var(--colour-text-on-dark);
+  color: var(--colour-text-muted);
   text-align: center;
+}
+
+.empty-state {
+  display: flex;
+  width: min(100%, 340px);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  margin: var(--space-3) 0;
+}
+
+.empty-state__illustration {
+  display: block;
+  width: min(100%, 188px);
+  aspect-ratio: 1;
+  border: 1px solid var(--colour-border-default);
+  border-radius: 28px;
+  background: var(--colour-surface);
+  object-fit: contain;
+  box-shadow: 0 6px 20px rgb(41 56 47 / 5%);
+}
+
+.empty-state .empty-message {
+  width: 100%;
+  margin: 0;
+  line-height: 1.5;
 }
 
 .confirmation-screen__heading,
 .activity-group h3 {
   margin: 0;
-  color: var(--colour-text-on-dark);
+  color: var(--colour-text);
   font-size: 16px;
-  font-weight: 800;
-  letter-spacing: 1.6px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
   text-align: center;
 }
 
@@ -298,7 +362,7 @@
 
 .confirmation-screen__note {
   margin: 0;
-  color: var(--colour-text-on-dark);
+  color: var(--colour-text-muted);
   font-size: 14px;
   text-align: center;
 }

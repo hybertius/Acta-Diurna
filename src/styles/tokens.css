@@ -1,25 +1,30 @@
 :root {
-  color-scheme: dark;
+  color-scheme: light;
   font-family: Inter, system-ui, sans-serif;
 
   /* Colour */
-  --colour-canvas: #0d0d0f;
-  --colour-surface: #eff0f4;
-  --colour-surface-selected: #f2ffdf;
+  --colour-page: #e9e6dc;
+  --colour-canvas: #f4f1e8;
+  --colour-surface: #fbf9f2;
+  --colour-surface-muted: #e9e8dd;
+  --colour-surface-selected: #e3eadf;
 
-  --colour-text: #0d1110;
-  --colour-text-on-dark: #eff0f4;
+  --colour-text: #29382f;
+  --colour-text-muted: #5c695e;
+  --colour-text-on-primary: #fbf9f2;
 
-  --colour-primary-box: #0c2950;
+  --colour-primary-box: #3b5543;
+  --colour-primary-action: #38513f;
 
-  --colour-selection: #80b7ff;
-  --colour-selection-active: #a4ffa2;
+  --colour-selection: #72866f;
+  --colour-selection-active: #a9baa0;
 
-  --colour-error: #773232;
-  --colour-error-outline: #311011;
-  --colour-border-default: #14060f;
+  --colour-error: #88483d;
+  --colour-error-outline: #f4e4dd;
+  --colour-border-default: #c3c4b7;
 
-  --colour-accent-light: #c1eaf2;
+  --colour-accent-light: #e1e8dc;
+  --colour-accent-warm: #9a6348;
 
   /* Spacing */
   --space-1: 4px;
@@ -30,8 +35,8 @@
   --space-6: 32px;
 
   /* Shape */
-  --radius-control: 12px;
-  --radius-card: 16px;
+  --radius-control: 14px;
+  --radius-card: 20px;
   --radius-panel: 32px;
 
   /* Layout */

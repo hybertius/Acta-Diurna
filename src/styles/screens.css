@@ -6,7 +6,7 @@
   margin-inline: auto;
   padding: 24px 0 8px;
   overflow: hidden;
-  border-radius: 20px;
+  border-radius: 32px;
   background: var(--colour-canvas);
 }
 
@@ -17,15 +17,16 @@
   flex: 0 0 40px;
   align-items: center;
   justify-content: center;
-  border-radius: 20px;
-  background: var(--colour-surface);
+  border-radius: 16px;
+  background: transparent;
   color: var(--colour-text);
 }
 
 .screen-header h1 {
   margin: 0;
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
   text-align: center;
 }
 
@@ -35,7 +36,7 @@
   flex: 1;
   flex-direction: column;
   align-items: center;
-  padding: 88px 0 35px;
+  padding: 88px 0 44px;
 }
 
 .upcoming-card {
@@ -43,7 +44,11 @@
 }
 
 .home-screen .primary-action {
+  width: min(calc(100% - 40px), 320px);
+  min-height: 56px;
+  flex-basis: 56px;
   margin-top: auto;
+  margin-bottom: 8px;
 }
 
 .time-screen {
@@ -58,6 +63,17 @@
 .time-slot-list {
   margin-top: 32px;
   gap: 24px;
+}
+
+.time-screen__hint {
+  margin: 8px 0 0;
+  color: var(--colour-text-muted);
+  font-size: 14px;
+  text-align: center;
+}
+
+.time-screen .time-slot-list {
+  margin-top: 16px;
 }
 
 .time-screen .primary-action {
@@ -76,7 +92,7 @@
 
 .activity-screen__hint {
   margin: 8px 0 0;
-  color: var(--colour-text-on-dark);
+  color: var(--colour-text-muted);
   font-size: 13px;
   letter-spacing: 0.3px;
 }

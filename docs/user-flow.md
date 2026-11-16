@@ -6,11 +6,11 @@ Schedule one activity in an available time slot and see it on the home screen.
 
 ## Flow
 
-1. The user starts on the weekly home screen and chooses **Visa Lediga Tider**.
-2. The user selects an available time and confirms it.
+1. The user starts on the weekly home screen and chooses **Visa lediga tider**.
+2. The user selects an available time and continues.
 3. The planner recommends activities that fit the selected time.
 4. The user selects an activity and reviews the scheduled time and activity.
-5. The user confirms the booking and returns to the home screen.
+5. The user saves the plan and returns to the home screen.
 6. The home screen shows the upcoming activity; the booking remains after a
    page refresh.
 
