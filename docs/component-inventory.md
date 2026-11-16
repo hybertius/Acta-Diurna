@@ -1,6 +1,13 @@
 # Component Inventory
 
-Semantic target architecture derived from the five audited Figma frames. This inventory describes reusable UI responsibilities and states rather than preserving Figma layer names as implementation names. Frame 3 is the immediate reconstruction target.
+Semantic target architecture derived from the audited Figma frames. This
+inventory describes reusable UI responsibilities and states rather than
+preserving Figma layer names as implementation names.
+
+Milestone 1 follows the main path on the newer `01 - Reconstructed flow` page:
+Home (`237:324`), available times (`197:387`), choose activity (`139:156`), and
+confirmation (`164:165`). The original five-frame audit remains useful as
+design history, but Frame 3 is no longer the sole implementation target.
 
 ## Shared components
 
@@ -45,4 +52,8 @@ Store the selected activity as screen state so that only one activity is selecte
 - Use semantic state (`selected`, `available`, `disabled`, and `empty`) rather than encoding state only in color or layer names.
 - Use the audited shared palette and Inter typography from [figma-source-audit.md](./figma-source-audit.md); keep color and text treatment centralized in design tokens.
 - The Figma extraction identified duplicate overlapping upcoming-activity structures in Frame 1. Do not replicate that duplication as two rendered cards without confirming it is intentional.
-- Component internals and state details for Frames 3–5 were only partially available due to the Figma MCP Starter-plan tool-call limit. Validate exact card content, variant behavior, and interactions against the source when access permits.
+- The original five-frame audit has incomplete details for Frames 3–5. The
+  newer reconstructed main-flow frames have since been inspected through
+  Figma MCP. Milestone 1 uses local sample times and activities and intentionally
+  omits the optional calendar and reminder choices shown on the confirmation
+  design.

@@ -1,61 +1,304 @@
-.activity-option-card {
+.week-calendar {
   display: flex;
   width: min(100%, 340px);
-  height: 80px;
+  height: 180px;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-5) var(--space-2);
+  border-radius: 60px;
+  background: var(--colour-surface);
+  color: var(--colour-text);
+  text-align: center;
+}
+
+.week-calendar h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.week-calendar__days {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  align-items: center;
+}
+
+.week-calendar__day {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.week-calendar__label {
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+.week-calendar__date {
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+.week-calendar__marker {
+  width: 9px;
+  height: 9px;
+  border: 1px solid var(--colour-text);
+  border-radius: 50%;
+}
+
+.week-calendar__marker.is-active {
+  background: var(--colour-text);
+}
+
+.upcoming-card,
+.confirmed-activity {
+  display: flex;
+  width: min(calc(100% - 12px), 348px);
+  min-height: 110px;
   align-items: center;
   gap: var(--space-3);
+  padding: var(--space-3);
+  border-radius: var(--radius-card);
+  background: var(--colour-surface);
+  color: var(--colour-text);
+  text-align: center;
+}
+
+.upcoming-card__icon,
+.time-slot-card__icon,
+.activity-option-card__icon,
+.confirmed-activity__icon {
+  flex: 0 0 38px;
+}
+
+.upcoming-card__content,
+.confirmed-activity__content {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.upcoming-card p,
+.confirmed-activity p {
+  margin: 0;
+}
+
+.upcoming-card__eyebrow {
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+.upcoming-card__title,
+.confirmed-activity__title,
+.confirmed-activity__time {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 1.4px;
+}
+
+.upcoming-card__details,
+.confirmed-activity__details {
+  font-size: 12px;
+  letter-spacing: 0.6px;
+}
+
+.screen-title-pill {
+  display: flex;
+  width: min(100%, var(--screen-width));
+  min-height: 40px;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: var(--space-2);
+  border-radius: 20px;
+  background: var(--colour-surface);
+  color: var(--colour-text);
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.time-slot-list,
+.activity-option-list {
+  display: flex;
+  width: min(100%, 340px);
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.time-slot-card,
+.activity-option-card {
+  display: flex;
+  width: 100%;
+  min-height: 80px;
+  align-items: center;
+  gap: var(--space-2);
   padding: var(--space-3);
   border: 0;
   border-radius: var(--radius-card);
   background: var(--colour-surface);
   color: var(--colour-text);
   text-align: left;
+  cursor: pointer;
 }
 
+.time-slot-card[aria-pressed="true"],
 .activity-option-card[aria-pressed="true"] {
   background: var(--colour-surface-selected);
 }
 
-.activity-option-card[aria-pressed="true"] .activity-option-card__state {
-  background: var(--colour-selection-active);
-}
-
-.activity-option-card:focus-visible {
+.time-slot-card:focus-visible,
+.activity-option-card:focus-visible,
+.primary-action:focus-visible {
   outline: 3px solid var(--colour-selection);
   outline-offset: 2px;
 }
 
+.time-slot-card__icon,
 .activity-option-card__icon {
-  width: 38px;
-  height: 38px;
-  flex: 0 0 38px;
   border-radius: var(--space-1);
-  background: var(--colour-primary-box);
 }
 
+.time-slot-card__content,
 .activity-option-card__content {
   display: flex;
   min-width: 0;
+  flex: 1;
   flex-direction: column;
-  gap: var(--space-1);
+  align-items: center;
+  gap: 4px;
 }
 
-.activity-option-card__state {
+.time-slot-card__content {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 1.6px;
+  line-height: 30px;
+}
+
+.selection-indicator {
+  position: relative;
+  display: grid;
   width: 28px;
   height: 28px;
   flex: 0 0 28px;
-  margin-left: auto;
-  border: 3px solid var(--colour-border-default);
+  place-items: center;
+}
+
+.selection-indicator.is-selected {
+  border: 2px solid var(--colour-text);
   border-radius: 50%;
-  background: var(--colour-selection);
+  background: var(--colour-selection-active);
+}
+
+.selection-indicator.is-selected img {
+  display: none;
+}
+
+.selection-indicator.is-selected::after {
+  color: var(--colour-text);
+  content: "✓";
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.activity-option-card__content {
+  align-items: center;
+  gap: 2px;
+  text-align: center;
 }
 
 .activity-option-card__title {
   font-size: 16px;
   font-weight: 600;
+  letter-spacing: 1.3px;
 }
 
 .activity-option-card__description {
   font-size: 12px;
-  font-weight: 400;
+  font-weight: 500;
+  letter-spacing: 0.8px;
+}
+
+.activity-option-card__recommendation {
+  color: #0c2950;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.25px;
+}
+
+.primary-action {
+  display: flex;
+  width: min(100%, var(--screen-width));
+  min-height: 48px;
+  flex: 0 0 48px;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: var(--space-2);
+  border: 0;
+  border-radius: 20px;
+  background: var(--colour-surface);
+  color: var(--colour-text);
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+}
+
+.primary-action:not(:disabled):hover {
+  background: var(--colour-accent-light);
+}
+
+.storage-warning {
+  width: min(100% - 16px, 340px);
+  margin: var(--space-2) auto 0;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--colour-error);
+  border-radius: var(--radius-control);
+  background: var(--colour-error-outline);
+  color: var(--colour-surface);
+  font-size: 14px;
+}
+
+.empty-message {
+  width: min(100% - 16px, 340px);
+  margin: var(--space-6) auto;
+  color: var(--colour-text-on-dark);
+  text-align: center;
+}
+
+.confirmation-screen__heading,
+.activity-group h3 {
+  margin: 0;
+  color: var(--colour-text-on-dark);
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 1.6px;
+  text-align: center;
+}
+
+.confirmation-screen__heading {
+  display: flex;
+  min-height: 60px;
+  align-items: center;
+  justify-content: center;
+}
+
+.confirmation-screen__note {
+  margin: 0;
+  color: var(--colour-text-on-dark);
+  font-size: 14px;
+  text-align: center;
 }

@@ -1,57 +1,153 @@
 .app {
-  width: min(100%, var(--screen-width));
-  height: var(--screen-height);
-  margin-inline: auto;
-  padding: 45px var(--screen-padding-inline) 28px;
   display: flex;
+  width: min(100%, var(--screen-width));
+  min-height: var(--screen-height);
   flex-direction: column;
+  margin-inline: auto;
+  padding: 24px 0 8px;
+  overflow: hidden;
+  border-radius: 20px;
+  background: var(--colour-canvas);
 }
 
 .screen-header {
-  height: 50px;
-  flex: 0 0 50px;
+  display: flex;
+  width: 100%;
+  height: 40px;
+  flex: 0 0 40px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  background: var(--colour-surface);
+  color: var(--colour-text);
+}
+
+.screen-header h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.home-screen {
+  display: flex;
+  min-height: calc(var(--screen-height) - 72px);
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  padding: 88px 0 35px;
+}
+
+.upcoming-card {
+  margin-top: 84px;
+}
+
+.home-screen .primary-action {
+  margin-top: auto;
+}
+
+.time-screen {
+  display: flex;
+  min-height: calc(var(--screen-height) - 72px);
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 0 36px;
+}
+
+.time-slot-list {
+  margin-top: 32px;
+  gap: 24px;
+}
+
+.time-screen .primary-action {
+  margin-top: auto;
 }
 
 .activity-screen {
-  min-height: 0;
-  flex: 1;
   display: flex;
+  min-height: calc(var(--screen-height) - 72px);
+  flex: 1;
   flex-direction: column;
+  align-items: center;
+  padding: 24px 10px 12px;
+  overflow-y: auto;
 }
 
-.screen-heading {
-  height: 50px;
-  flex: 0 0 50px;
-  margin: 16px 0;
+.activity-screen__hint {
+  margin: 8px 0 0;
+  color: var(--colour-text-on-dark);
+  font-size: 13px;
+  letter-spacing: 0.3px;
 }
 
 .activity-groups {
   display: flex;
+  width: 100%;
   flex-direction: column;
-  gap: 11px;
+  gap: 16px;
+  margin-top: 16px;
 }
 
 .activity-group h3 {
-  min-height: 30px;
-  margin: 0 0 14px;
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
 }
 
 .activity-option-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
+  gap: 12px;
+  margin-inline: auto;
 }
 
-.primary-action {
-  width: min(calc(100% + 16px), var(--screen-width));
-  height: 60px;
-  flex: 0 0 60px;
+.activity-screen .primary-action {
+  position: sticky;
+  bottom: 0;
+  margin-top: 16px;
+  box-shadow: 0 -8px 12px var(--colour-canvas);
+}
+
+.confirmation-screen {
+  display: flex;
+  min-height: calc(var(--screen-height) - 72px);
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 24px 8px;
+}
+
+.confirmation-screen .primary-action {
   margin-top: auto;
-  margin-left: -6px;
-  padding: 0;
-  border: 0;
-  background: none;
+}
+
+@media (max-width: 359px) {
+  .week-calendar {
+    padding-inline: 4px;
+  }
+
+  .week-calendar__label {
+    font-size: 12px;
+    letter-spacing: 0;
+  }
+
+  .activity-option-card__title {
+    font-size: 14px;
+    letter-spacing: 0;
+  }
+}
+
+@media (max-height: 719px) {
+  .app {
+    min-height: 100vh;
+  }
+
+  .home-screen,
+  .time-screen,
+  .activity-screen,
+  .confirmation-screen {
+    min-height: calc(100vh - 72px);
+  }
 }

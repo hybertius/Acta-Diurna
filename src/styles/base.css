@@ -11,6 +11,8 @@ body {
   min-width: 20rem;
   min-height: 100vh;
   margin: 0;
+  display: flex;
+  justify-content: center;
   background: var(--colour-canvas);
   color: var(--colour-text-on-dark);
   font-family: Inter, system-ui, sans-serif;
@@ -27,6 +29,21 @@ button {
   color: inherit;
 }
 
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
 a {
   color: var(--colour-selection);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
 }

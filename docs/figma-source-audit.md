@@ -172,3 +172,17 @@ Named color variables returned across the page and screen nodes: `surface/backgr
 - **Frame 2 (`80:178`)** is 360 × 720. Its root uses a vertical flex layout, centered children, 31px block padding, 26px gap and a 38px corner radius. The returned hierarchy contains the title, available-times heading, time cards, selected-time card and confirmation button. The time-card rows contain repeated component content; one row is an instance (`94:648`). Individual inner-card controls use absolute positioning.
 - The retrieved component context exposes a `property1` variant with value `Variant2` on the title and time-card components. The frame hierarchies identify the other symbols and instances by node ID; component property details for Frames 3–5 were not available after the rate limit.
 - No variable definitions for spacing or strokes were returned in the successful calls. The raw spacing, padding, gaps, alignment and absolute-position values above come from the returned Frame 1 and Frame 2 context; values for the other frame layouts remain unaudited here.
+
+## Milestone 1: Reconstructed flow
+
+- Figma file: `W48y3UapVayJrcGvq9enhQ`
+- Page node: `123:133` (`01 - Reconstructed flow`)
+- Page URL: https://www.figma.com/design/W48y3UapVayJrcGvq9enhQ/Tr%C3%A4ningsplanerare---Wireframes?node-id=123-133
+- Main flow frames: Home / choose time `237:324`; available times `197:387`; choose activity `139:156`; confirmation `164:165`.
+- Additional documented states: empty availability `366:344` and `420:615`, generic error `366:488` and `366:593`, loading `366:518`, and desktop layout `445:818`.
+
+Figma MCP design context and screenshots are now available for the four main
+flow frames. The reconstructed page also documents a desktop layout and
+non-happy-path screens. Milestone 1 intentionally implements only the happy
+path with local sample data; calendar integration, reminders, and the other
+additional states are not required.

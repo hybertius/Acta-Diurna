@@ -1,47 +1,42 @@
 # Screen Contracts
 
-Define each screen's purpose, content, states, and interactions here.
+## Home
 
-## Screen template
+- **Purpose:** Show the current week and the next scheduled activity.
+- **Entry:** Initial page load or successful booking.
+- **Actions:** Open available times.
+- **States:** No activity scheduled; upcoming activity scheduled.
 
-### _Screen name_
+## Available times
 
-- **Purpose:** _Why this screen exists._
-- **Entry:** _How the user arrives._
-- **Content:** _Information and controls shown._
-- **Actions:** _Available user actions and their outcomes._
-- **States:** _Loading, empty, error, and success states._
+- **Purpose:** Let the user choose a sample time slot.
+- **Entry:** The user chooses to view available times from Home.
+- **Actions:** Select one slot and confirm.
+- **States:** No selection; selected slot; no sample slots remaining.
+- **Rules:** Confirmation is disabled until one available slot is selected.
 
-Screen: Choose activity
+## Choose activity
 
-Purpose:
-Allow the user to choose one activity after selecting a time.
+- **Purpose:** Recommend activities that fit the selected time and let the user
+  choose one.
+- **Entry:** The user confirms an available time.
+- **Actions:** Select one activity and continue to confirmation.
+- **States:** Recommended activity identified; selected activity.
+- **Rules:** Choices remain grouped by category. The recommendation has a
+  visible label and explanation. The selected state must not rely on colour
+  alone.
 
-Structure:
-- App header
-- Screen heading
-- Activity group
-  - Group heading
-  - Activity option list
-- Activity group
-  - Group heading
-  - Activity option list
-- Primary action
+## Confirm activity
 
-States:
-- Default activity option
-- Selected activity option
-- Primary action available
+- **Purpose:** Review the chosen activity and time before saving.
+- **Entry:** The user selects an activity.
+- **Actions:** Confirm the booking; return to Home only after it is saved.
+- **States:** Confirmation; storage error.
+- **Rules:** A storage failure must be visible and must not be presented as a
+  successful booking.
 
-Entry conditions:
+## Persistence
 
-The user has selected an available time.
-Successful outcome:
-
-One activity is selected.
-The primary action advances to the confirmation screen.
-Rules:
-
-Only one activity can be selected at a time.
-Activity choices remain grouped by category.
-The selected state must not rely on colour alone.
+- Confirmed bookings are saved in browser `localStorage`.
+- On reload, Home reads the saved bookings and displays the next upcoming one.
+- This milestone uses local sample data and does not connect to a real calendar.
