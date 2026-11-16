@@ -174,3 +174,167 @@ No rush.
 The sloth version of progress.
 
 🦥
+
+### Initial scaffold (ranking unchanged)
+
+- Recommendation results expose `timeMatch`, `energyMatch`, `locationMatch`,
+  and `equipmentMatch`.
+- Only time fit is evaluated with the current inputs. Energy, location, and
+  equipment retain known activity context but remain `not-evaluated` until the
+  user provides matching preferences or availability.
+- Sample locations distinguish only `indoors` and `outdoors`; the data does not
+  infer home versus gym.
+- Duration-based ranking and the visible recommendation explanations remain
+  unchanged.
+
+Milestone 3A
+TypeScript
+activity.energyLevel
+activity.location
+activity.equipment
+
+exists.
+
+No behavioural change.
+
+No ranking change.
+
+No user-facing effect.
+
+Just structure.
+
+Milestone 3B
+
+Then later:
+
+TypeScript
+if (user.energy === "low") {
+walking += 5;
+}
+
+begins influencing recommendations.
+
+Phase B - Context
+
+This is where you're heading.
+
+Not AI.
+
+Not magic.
+
+Just:
+
+TypeScript
+UserState {
+energy
+location
+equipment
+}
+
+Then:
+
+TypeScript
+energyMatch
+locationMatch
+equipmentMatch
+
+become real instead of not-evaluated.
+
+This is probably the next meaningful leap.
+
+Phase C - Guidance
+
+This one is my favourite.
+
+Not tracking.
+
+Guidance.
+
+Things like:
+
+Plain Text
+You've planned 2 activities this week.
+
+Would you like one more?
+
+or
+
+Plain Text
+Looks like a busy week.
+
+No rush.
+
+The sloth version of analytics.
+
+🦥
+
+Phase D - Reality
+
+And this is the one nobody is talking about yet.
+
+Eventually:
+
+Plain Text
+Sample time slots
+
+become:
+
+Plain Text
+Real availability
+
+Maybe calendar integration.
+
+Maybe manual availability.
+
+Maybe something else.
+
+But eventually the planner runs out of demo mode.
+
+So if I were giving Luna a north-star roadmap it would be:
+
+Plain Text
+Foundation ✅
+↓
+Context 🔄
+↓
+Guidance
+↓
+Reality
+
+Next
+Plain Text
+Duration
++
+Energy
++
+Location
++
+Equipment
+
+↓
+
+Explainability
+Later
+Plain Text
+Duration
++
+Energy
++
+Location
++
+Equipment
+
+↓
+
+Actual ranking influence
+
+Choose Time
+↓
+Activities Appear
+
+[ Optional ]
+How are you feeling today?
+
+◉ Low
+○ Normal
+○ High

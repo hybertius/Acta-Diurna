@@ -8,6 +8,8 @@ const activityGroups = [
         durationMinutes: 20,
         environment: "Utomhus",
         equipment: "Cykel",
+        location: "outdoors",
+        energyLevel: null,
         description: "En kort cykeltur utomhus.",
         equipmentReason: "Du behöver en cykel.",
         icon: "../assets/activity-option.svg",
@@ -18,6 +20,8 @@ const activityGroups = [
         durationMinutes: 20,
         environment: "Utomhus",
         equipment: "Ingen utrustning",
+        location: "outdoors",
+        energyLevel: null,
         description: "En promenad i din egen takt.",
         equipmentReason: "Ingen utrustning behövs.",
         icon: "../assets/activity-option.svg",
@@ -33,6 +37,8 @@ const activityGroups = [
         durationMinutes: 25,
         environment: "Inomhus",
         equipment: "Maskin",
+        location: "indoors",
+        energyLevel: "low",
         description: "Jämn rörelse i ett tempo du väljer.",
         equipmentReason: "Du behöver tillgång till en crosstrainer.",
         effortReason: "Låg intensitet.",
@@ -44,6 +50,8 @@ const activityGroups = [
         durationMinutes: 20,
         environment: "Inomhus",
         equipment: "Ingen utrustning",
+        location: "indoors",
+        energyLevel: "low",
         description: "Bra när du vill röra på dig utan utrustning.",
         equipmentReason: "Ingen utrustning behövs.",
         effortReason: "Låg intensitet.",
@@ -113,6 +121,25 @@ function getRecommendations(timeSlot) {
     .map((activity) => ({
       activity,
       score: 100 - (timeSlot.durationMinutes - activity.durationMinutes) * 2,
+      matchFactors: {
+        timeMatch: {
+          status: "matched",
+          activityMinutes: activity.durationMinutes,
+          availableMinutes: timeSlot.durationMinutes,
+        },
+        energyMatch: {
+          status: "not-evaluated",
+          activityLevel: activity.energyLevel,
+        },
+        locationMatch: {
+          status: "not-evaluated",
+          activityLocation: activity.location,
+        },
+        equipmentMatch: {
+          status: "not-evaluated",
+          requiredEquipment: activity.equipment,
+        },
+      },
       reasons: [
         `Passar bäst i din lediga tid (${activity.durationMinutes} av ${timeSlot.durationMinutes} min).`,
         activity.equipmentReason,
