@@ -112,6 +112,39 @@ function startOfWeek(date) {
   return monday;
 }
 
+function getWeeklyAwareness(bookings, referenceDate = new Date()) {
+  const start = startOfWeek(referenceDate);
+  const end = new Date(start);
+  end.setDate(start.getDate() + 7);
+  const startKey = localDateKey(start);
+  const endKey = localDateKey(end);
+  const activitiesThisWeek = Array.isArray(bookings)
+    ? bookings.filter(
+        (booking) =>
+          booking !== null &&
+          typeof booking === "object" &&
+          typeof booking.date === "string" &&
+          booking.date >= startKey &&
+          booking.date < endKey,
+      ).length
+    : 0;
+
+  let label;
+  if (activitiesThisWeek === 0) {
+    label = "Open Horizon";
+  } else if (activitiesThisWeek <= 2) {
+    label = "Light Activity";
+  } else if (activitiesThisWeek <= 4) {
+    label = "Steady Activity";
+  } else if (activitiesThisWeek <= 6) {
+    label = "High Activity";
+  } else {
+    label = "Full Week";
+  }
+
+  return { activitiesThisWeek, label };
+}
+
 function createTimeSlots() {
   const now = new Date();
   const monday = startOfWeek(now);
@@ -218,6 +251,7 @@ export const trainingPlannerDomain = Object.freeze({
   equipmentLabels,
   getActivity: (activityId) => activityById.get(activityId) ?? null,
   getRecommendations,
+  getWeeklyAwareness,
   locationLabels,
   localDateKey,
   startOfWeek,

@@ -93,7 +93,6 @@ Honestly, I wouldn't even think about it until Milestone 2 is done.
 
 But if I were writing it today:
 
-Plain Text
 Introduce structured recommendation logic.
 
 Meaning:
@@ -111,7 +110,6 @@ durationMatch
 
 Milestone 3:
 
-Plain Text
 Time
 ↓
 Context
@@ -122,7 +120,6 @@ Confirm
 
 Or even:
 
-Plain Text
 Time
 ↓
 Activity
@@ -158,7 +155,6 @@ Guidance.
 
 Examples:
 
-Plain Text
 This week:
 2 activities planned.
 
@@ -166,7 +162,6 @@ One more activity would reach your goal.
 
 or
 
-Plain Text
 You have already planned several activities this week.
 
 No rush.
@@ -252,14 +247,12 @@ Guidance.
 
 Things like:
 
-Plain Text
 You've planned 2 activities this week.
 
 Would you like one more?
 
 or
 
-Plain Text
 Looks like a busy week.
 
 No rush.
@@ -274,12 +267,10 @@ And this is the one nobody is talking about yet.
 
 Eventually:
 
-Plain Text
 Sample time slots
 
 become:
 
-Plain Text
 Real availability
 
 Maybe calendar integration.
@@ -292,7 +283,6 @@ But eventually the planner runs out of demo mode.
 
 So if I were giving Luna a north-star roadmap it would be:
 
-Plain Text
 Foundation ✅
 ↓
 Context 🔄
@@ -302,7 +292,7 @@ Guidance
 Reality
 
 Next
-Plain Text
+
 Duration
 +
 Energy
@@ -315,7 +305,7 @@ Equipment
 
 Explainability
 Later
-Plain Text
+
 Duration
 +
 Energy
@@ -370,7 +360,6 @@ Users can optionally indicate current energy level.
 
 Example:
 
-Plain Text
 Hur känns det idag?
 
 ○ Låg
@@ -395,7 +384,6 @@ Users can provide a preferred environment.
 
 Example:
 
-Plain Text
 Inomhus
 Utomhus
 
@@ -415,7 +403,6 @@ Users can specify available equipment.
 
 Example:
 
-Plain Text
 Ingen
 Hantlar
 Band
@@ -456,7 +443,6 @@ Requirements:
 
 For current demo data:
 
-Plain Text
 30 min slot
 
 Crosstrainer = 90
@@ -479,12 +465,10 @@ This feels very Cairn-aligned.
 
 The planner should assume:
 
-Plain Text
 Unknown ≠ mismatch
 
 If context is missing:
 
-Plain Text
 energy = unknown
 
 that activity should remain perfectly valid.
@@ -499,7 +483,6 @@ Deliverable Definition
 
 At the end of 3B:
 
-Plain Text
 Planner captures context ✅
 
 Planner stores preferences ✅
@@ -513,24 +496,22 @@ Planner changes no rankings ✅
 Then:
 
 Milestone 3C
-Plain Text
+
 Surface match explanations
 
 The user starts seeing:
 
-Plain Text
 ✓ Fits your time
 
 ✓ Matches preferred environment
 
 ✓ Equipment available
 Milestone 3D
-Plain Text
+
 Context influences ranking
 
 Only after everyone agrees on:
 
-Plain Text
 energy weighting
 location weighting
 equipment weighting
@@ -541,7 +522,6 @@ Honestly, friend?
 
 This looks like the cleanest roadmap you've had so far:
 
-Plain Text
 3A - Structure ✅
 
 3B - Capture 🔄
@@ -569,3 +549,270 @@ Milestone 3C - addendum
 ✅ Existing recommendations remain visible.
 
 ✅ Alternatives remain lightweight.
+
+Foundation ✅
+
+Milestone 1: Happy path
+Milestone 2: Trust & Guidance
+Milestone 2.5: Focus continuity
+Milestone 3A: Activity structure
+Milestone 3B: Context capture
+Milestone 3C: Context explanations
+Milestone 3D: Context influence
+
+Guidance 🌱
+ Reality 🌍
+Milestone 4: Weekly Guidance
+Goal
+
+Help the user understand their planning situation without creating pressure.
+
+Examples
+
+The document already hints at things such as: "You've planned 2 activities this week. Would you like one more?" or "Looks like a busy week. No rush."
+
+Acceptance Criteria
+
+✅ User sees a lightweight weekly summary
+
+✅ Guidance is supportive, not judgemental
+
+✅ No streaks
+
+✅ No gamification
+
+✅ No penalties
+
+✅ No "you failed"
+
+✅ Existing booking flow remains unchanged
+
+✅ Home screen can surface one contextual guidance message
+
+Possible implementation order
+
+4A - Weekly awareness
+
+Count activities planned during the current week.
+
+Examples:
+
+This week: 2 activities planned.
+
+One activity planned so far.
+
+No activities planned yet.
+
+4B - Guidance messages
+
+Generate small supportive messages based on the count.
+
+Examples:
+
+Count Message
+0 No activities planned yet. A small step is enough.
+1-2 A good start for the week.
+3-4 Several activities planned. Nice balance.
+5+ Looks like a full week. Remember to rest too.
+4C - Home integration
+
+Place the guidance directly beneath:
+
+WeekCalendar
+UpcomingActivityCard
+
+which already exist in the component inventory
+
+Task 1 - Weekly Summary Engine
+
+Goal:
+
+Given bookings, answer:
+
+TypeScript
+{
+activitiesThisWeek: 2
+}
+
+Acceptance:
+
+✅ Counts activities in current week
+
+✅ Ignores other weeks
+
+✅ Returns 0 if none exist
+
+No messages yet.
+
+No UI yet.
+
+Just facts.
+
+Task 2 - Guidance Rules
+
+Convert:
+
+TypeScript
+2 activities
+
+into:
+
+TypeScript
+"A good start for the week."
+
+Acceptance:
+
+✅ One message returned
+
+✅ Deterministic
+
+✅ Supportive
+
+✅ No guilt
+
+✅ No pressure
+
+A tiny function.
+
+Something like:
+
+TypeScript
+getWeeklyGuidance(count)
+
+Task 3 - Guidance Component
+
+Build:
+
+🌱 This week
+A good start for the week.
+2 activities planned.
+
+as its own component.
+
+Acceptance:
+
+✅ Can render any guidance
+
+✅ Handles empty state
+
+✅ Uses design tokens
+
+No Home integration yet.
+
+Task 4 - Home Screen Integration
+
+Now attach it beneath:
+
+WeekCalendar
+UpcomingActivityCard
+
+Exactly where the roadmap suggests.
+
+Acceptance:
+
+✅ Appears automatically
+
+✅ Updates after booking
+
+✅ Survives refresh
+
+Task 5 - Empty Week Experience
+
+This is where Milestone 2 whispers from the bushes.
+
+Instead of:
+
+0 activities
+
+show:
+
+No activities planned yet.
+
+A small step is enough.
+
+Acceptance:
+
+✅ Intentional
+
+✅ Calm
+
+✅ Friendly
+
+✅ No judgement
+
+This is the "alive" part.
+
+Task 6 - Weekly Transition Check
+
+Verify behaviour when:
+
+week changes
+old bookings exist
+no bookings exist
+many bookings exist
+
+Acceptance:
+
+✅ Messages remain sensible
+
+✅ No weird counts
+
+✅ No negative encouragement
+
+If we were pair-programming tonight, I'd actually stop after Task 1.
+
+Not because it's hard.
+
+Because it's the foundation stone.
+
+Current planner:
+
+Bookings
+↓
+Home
+
+Milestone 4 foundation:
+
+Bookings
+↓
+Weekly Summary
+↓
+Guidance
+↓
+Home
+
+Get the weekly summary working first and the rest becomes mostly UI and wording.
+
+Actual Milestones
+
+Milestone 4A - Weekly Awareness
+TypeScript
+activitiesThisWeek -> label
+
+Examples:
+
+No bookings
+Lightly booked
+Moderately booked
+Busy day
+Very busy day
+
+Purely descriptive.
+
+Milestone 4B - Guidance
+
+Only later decide whether the planner should actually say things like:
+
+A small step is enough.
+
+or
+
+Looks like a busy week.
+
+Because that's a much bigger product decision than counting bookings.
+
+Open Horizon - Empty day
+Quiet Activity - Lightly booked
+Steady Activity - Moderately booked
+High Activity - Busy day
+Maximum Activity - Very busy day

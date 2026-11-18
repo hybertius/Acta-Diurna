@@ -60,6 +60,18 @@
 - On reload, Home reads the saved bookings and displays the next upcoming one.
 - This milestone uses local sample data and does not connect to a real calendar.
 
+## Milestone 4A weekly awareness
+
+- The domain can summarize bookings as `{ activitiesThisWeek, label }` for the
+  current local Monday-Sunday week.
+- Bookings from earlier or later weeks do not contribute to the count.
+- Count ranges map to `Open Horizon` (0), `Light Activity` (1-2),
+  `Steady Activity` (3-4), `High Activity` (5-6), and `Full Week` (7+).
+- These labels describe planning volume only. They are not targets, intensity
+  ratings, daily-coverage claims, stopping points, or booking restrictions;
+  counts above seven remain valid.
+- Milestone 4A adds no guidance message or Home integration.
+
 ## Keyboard focus
 
 - Moving to another screen places focus on that screen's heading, except after
