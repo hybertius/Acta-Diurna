@@ -44,14 +44,14 @@
 }
 
 .home-screen .primary-action,
-.time-screen .primary-action[data-action="reset-plan"] {
+.time-screen .primary-action {
   width: min(calc(100% - 40px), 320px);
   min-height: 56px;
   flex-basis: 56px;
 }
 
 .home-screen .primary-action {
-  margin-top: auto;
+  margin-top: var(--space-4);
   margin-bottom: 8px;
 }
 

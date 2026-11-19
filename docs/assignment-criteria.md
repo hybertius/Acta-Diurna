@@ -560,259 +560,238 @@ Milestone 3B: Context capture
 Milestone 3C: Context explanations
 Milestone 3D: Context influence
 
-Guidance 🌱
- Reality 🌍
-Milestone 4: Weekly Guidance
-Goal
+## Milestone 4 - Weekly Guidance
 
-Help the user understand their planning situation without creating pressure.
+### Goal
 
-Examples
+Help the user understand the planning situation without turning the count into
+a target, score, judgement, or obligation.
 
-The document already hints at things such as: "You've planned 2 activities this week. Would you like one more?" or "Looks like a busy week. No rush."
+The Milestone 4 sequence is intentionally divided into small layers:
 
-Acceptance Criteria
+1. Facts
+2. Meaning
+3. Presentation
+4. Home integration
+5. Transition verification
 
-✅ User sees a lightweight weekly summary
+### Shared acceptance criteria
 
-✅ Guidance is supportive, not judgemental
+- The user sees at most one contextual weekly summary.
+- Guidance is supportive and non-prescriptive.
+- The planner has no streaks, gamification, penalties, failure language, or
+  recommended stopping point.
+- The existing booking flow remains unchanged.
+- A booking-dependent summary updates after a booking and survives refresh.
+- Counts and labels remain valid for weeks with more than seven activities.
 
-✅ No streaks
+### Milestone 4A - Weekly awareness
 
-✅ No gamification
+Status: complete.
 
-✅ No penalties
+Purpose:
 
-✅ No "you failed"
+Given saved bookings, return the current local Monday-to-Sunday count and a
+neutral planning-volume label:
 
-✅ Existing booking flow remains unchanged
-
-✅ Home screen can surface one contextual guidance message
-
-Possible implementation order
-
-4A - Weekly awareness
-
-Count activities planned during the current week.
-
-Examples:
-
-This week: 2 activities planned.
-
-One activity planned so far.
-
-No activities planned yet.
-
-4B - Guidance messages
-
-Generate small supportive messages based on the count.
-
-Examples:
-
-Count Message
-0 No activities planned yet. A small step is enough.
-1-2 A good start for the week.
-3-4 Several activities planned. Nice balance.
-5+ Looks like a full week. Remember to rest too.
-4C - Home integration
-
-Place the guidance directly beneath:
-
-WeekCalendar
-UpcomingActivityCard
-
-which already exist in the component inventory
-
-Task 1 - Weekly Summary Engine
-
-Goal:
-
-Given bookings, answer:
-
-TypeScript
+```js
 {
-activitiesThisWeek: 2
+  activitiesThisWeek: 3,
+  label: "Steady Activity"
 }
+```
 
-Acceptance:
+Label ranges:
 
-✅ Counts activities in current week
+- `Open Horizon`: 0
+- `Light Activity`: 1-2
+- `Steady Activity`: 3-4
+- `High Activity`: 5-6
+- `Full Week`: 7 or more
 
-✅ Ignores other weeks
+Acceptance criteria:
 
-✅ Returns 0 if none exist
+- Count bookings in the current week.
+- Ignore bookings in earlier or later weeks.
+- Return zero and `Open Horizon` when no current-week bookings exist.
+- Keep counts above seven valid.
+- Return facts without guidance copy or Home presentation.
 
-No messages yet.
+### Milestone 4B - Guidance rules
 
-No UI yet.
+Status: complete.
 
-Just facts.
+Purpose:
 
-Task 2 - Guidance Rules
+Turn an awareness summary into one deterministic, supportive sentence without
+rendering it or changing planner behavior.
 
-Convert:
+Implemented boundary:
 
-TypeScript
-2 activities
+- Input: `{ activitiesThisWeek, label }`
+- Output: `{ key, message }`
+- One message is returned for every valid label.
+- Copy acknowledges planning volume without praising, judging, prescribing,
+  or inferring activity intensity.
+- No copy suggests that the user should add, remove, pause, or limit activities.
+- No copy implies that the week is full in a capacity sense.
+- English guidance is available for the later presentation layer without
+  changing the current Swedish interface.
 
-into:
+Acceptance criteria:
 
-TypeScript
-"A good start for the week."
+- Every 4A label maps to exactly one message.
+- The same input always returns the same output.
+- One activity uses singular wording; zero and other counts use plural wording.
+- No message contains a target, streak, score, penalty, failure statement, or
+  obligation.
+- The function has no date, storage, or rendering responsibility.
 
-Acceptance:
+Implemented output examples:
 
-✅ One message returned
+```js
+getWeeklyGuidance({ activitiesThisWeek: 0, label: "Open Horizon" })
+// { key: "weekly-activity-count", message: "0 activities are planned this week." }
 
-✅ Deterministic
+getWeeklyGuidance({ activitiesThisWeek: 1, label: "Light Activity" })
+// { key: "weekly-activity-count", message: "1 activity is planned this week." }
+```
 
-✅ Supportive
+4B remains domain-only and does not change Home or the existing Swedish
+interface.
 
-✅ No guilt
+### Milestone 4C - Weekly summary component
 
-✅ No pressure
+Status: complete.
 
-A tiny function.
+Purpose:
 
-Something like:
+Build a reusable component that presents an awareness summary and its approved
+guidance.
 
-TypeScript
-getWeeklyGuidance(count)
+Implemented acceptance criteria:
 
-Task 3 - Guidance Component
+- The component receives facts and copy as input.
+- It renders a heading, count, descriptive label, and one message.
+- It handles zero and larger counts without overflow or value judgement.
+- It uses the existing design tokens and semantic HTML.
+- It contains no storage access, date calculation, or guidance-rule selection.
+- Its standalone output is verified before Home integration.
 
-Build:
+4C is presentation-only and depends on 4B output. It remains separate from Home
+data calculation and guidance selection.
 
-🌱 This week
-A good start for the week.
-2 activities planned.
+### Milestone 4D - Home integration
 
-as its own component.
+Status: complete.
 
-Acceptance:
+Purpose:
 
-✅ Can render any guidance
+Mount the reviewed weekly summary on Home using the saved bookings.
 
-✅ Handles empty state
+Implemented acceptance criteria:
 
-✅ Uses design tokens
+- The summary is derived from current local booking data.
+- It appears automatically on Home.
+- It updates after a successful booking and survives refresh.
+- It is positioned after `WeekCalendar` and `UpcomingActivityCard`, before the
+  primary action.
+- It preserves the existing booking flow and focus behavior.
+- It does not create another persistence path.
+- It adds no new interactive control or live region.
 
-No Home integration yet.
+### Milestone 4E - Weekly transition verification
 
-Task 4 - Home Screen Integration
+Purpose:
 
-Now attach it beneath:
+Verify that week changes and edge cases preserve the factual, calm behavior.
 
-WeekCalendar
-UpcomingActivityCard
+Check:
 
-Exactly where the roadmap suggests.
+- No bookings in the current week
+- Old or future bookings only
+- Sunday-to-Monday week transition
+- Booking followed by Home render and refresh
+- Counts of 0, 1, 2, 3, 4, 5, 6, 7, and more than 7
+- Narrow viewport and keyboard use
 
-Acceptance:
+Acceptance criteria:
 
-✅ Appears automatically
+- The count and label remain correct.
+- Guidance never becomes corrective or pressuring.
+- The Home action remains obvious and usable.
+- Existing booking behavior remains intact.
 
-✅ Updates after booking
+## Milestone 5 - Plan Flexibility
 
-✅ Survives refresh
+### Goal
 
-Task 5 - Empty Week Experience
+Let the user change the plan without implying that the original decision was
+wrong. No accounts, analytics, reminders, machine learning, or real calendar
+integration are added.
 
-This is where Milestone 2 whispers from the bushes.
+### Milestone 5A - Remove one booking
 
-Instead of:
+Purpose:
 
-0 activities
+Allow one saved activity to be removed while preserving the rest of the plan.
 
-show:
+Acceptance criteria:
 
-No activities planned yet.
+- The user chooses one specific booking.
+- A calm confirmation explains exactly what will be removed.
+- Cancelling leaves the plan unchanged.
+- Confirming removes only that booking.
+- The released sample time becomes available again.
+- The updated bookings survive refresh.
+- Removing an item does not require resetting the full sample plan.
+- The interface uses neutral language, not failure or guilt.
 
-A small step is enough.
+### Milestone 5B - Weekly-summary reconciliation
 
-Acceptance:
+Purpose:
 
-✅ Intentional
+Keep future Milestone 4 presentation synchronized with a changed plan.
 
-✅ Calm
+Acceptance criteria:
 
-✅ Friendly
+- Weekly facts are recalculated from the remaining bookings.
+- Guidance remains deterministic and non-prescriptive.
+- Removing the last booking produces the zero-count state.
+- Earlier and later week bookings remain unaffected.
 
-✅ No judgement
+### Milestone 5C - Reschedule one booking
 
-This is the "alive" part.
+Purpose:
 
-Task 6 - Weekly Transition Check
+Let the user choose another available sample time for an existing activity.
 
-Verify behaviour when:
+Acceptance criteria:
 
-week changes
-old bookings exist
-no bookings exist
-many bookings exist
+- The original booking remains intact until a replacement is confirmed.
+- Only an available sample time can be selected.
+- The activity identity and the rest of the plan remain unchanged.
+- Confirmation persists the new time after refresh.
+- Real calendar integration remains out of scope.
 
-Acceptance:
+### Dependency flow
 
-✅ Messages remain sensible
+Saved bookings lead to 4A weekly facts, those facts lead to 4B guidance, and the
+guidance and facts feed the 4C component. Home integration follows in 4D, with
+weekly-transition verification in 4E.
 
-✅ No weird counts
+The original flow sketch is retained below:
 
-✅ No negative encouragement
-
-If we were pair-programming tonight, I'd actually stop after Task 1.
-
-Not because it's hard.
-
-Because it's the foundation stone.
-
-Current planner:
-
-Bookings
-↓
-Home
-
-Milestone 4 foundation:
-
+```text
 Bookings
 ↓
 Weekly Summary
 ↓
 Guidance
 ↓
+Weekly Summary Component
+↓
 Home
+```
 
-Get the weekly summary working first and the rest becomes mostly UI and wording.
-
-Actual Milestones
-
-Milestone 4A - Weekly Awareness
-TypeScript
-activitiesThisWeek -> label
-
-Examples:
-
-No bookings
-Lightly booked
-Moderately booked
-Busy day
-Very busy day
-
-Purely descriptive.
-
-Milestone 4B - Guidance
-
-Only later decide whether the planner should actually say things like:
-
-A small step is enough.
-
-or
-
-Looks like a busy week.
-
-Because that's a much bigger product decision than counting bookings.
-
-Open Horizon - Empty day
-Quiet Activity - Lightly booked
-Steady Activity - Moderately booked
-High Activity - Busy day
-Maximum Activity - Very busy day
+The text immediately above is the complete accessible alternative to the flow.

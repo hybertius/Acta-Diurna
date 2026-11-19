@@ -1,4 +1,5 @@
 import { trainingPlannerDomain as domain } from "./domain.js";
+import { renderWeeklySummary } from "./weekly-summary.js";
 
 const STORAGE_KEY = "training-planner.scheduled-activities.v1";
 const PREFERENCES_STORAGE_KEY = "training-planner.user-preferences.v1";
@@ -212,7 +213,7 @@ function renderCalendar() {
 
   return `
     <section class="week-calendar" aria-label="Den här veckan">
-      <h2>Den här veckan</h2>
+      <h3>Den här veckan</h3>
       <div class="week-calendar__days">
         ${labels
           .map((label, index) => {
@@ -243,6 +244,8 @@ function renderCalendar() {
 function renderHomeScreen() {
   const upcoming = getUpcomingActivity();
   const activity = upcoming ? getActivity(upcoming.activityId) : null;
+  const weeklyAwareness = domain.getWeeklyAwareness(state.scheduledActivities);
+  const weeklyGuidance = domain.getWeeklyGuidance(weeklyAwareness);
   const upcomingTitle = upcoming && activity
     ? `${formatWeekday(upcoming.date)} ${upcoming.time} · ${activity.name}`
     : "Inget planerat ännu";
@@ -263,6 +266,7 @@ function renderHomeScreen() {
           <p class="upcoming-card__details">${upcomingDetails}</p>
         </div>
       </article>
+      ${renderWeeklySummary(weeklyAwareness, weeklyGuidance)}
       ${renderStorageWarning()}
       <button class="primary-action" type="button" data-action="show-times">Visa lediga tider</button>
     </section>

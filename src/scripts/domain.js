@@ -88,6 +88,7 @@ const contextMatchBonuses = {
   equipment: 1,
 };
 const slotDefinitions = [
+  { weekdayOffset: 0, time: "10:30" },
   { weekdayOffset: 1, time: "10:30" },
   { weekdayOffset: 2, time: "10:30" },
   { weekdayOffset: 3, time: "16:30" },
@@ -112,6 +113,22 @@ function startOfWeek(date) {
   return monday;
 }
 
+function getWeeklyAwarenessLabel(activitiesThisWeek) {
+  if (activitiesThisWeek === 0) {
+    return "Open Horizon";
+  }
+  if (activitiesThisWeek <= 2) {
+    return "Light Activity";
+  }
+  if (activitiesThisWeek <= 4) {
+    return "Steady Activity";
+  }
+  if (activitiesThisWeek <= 6) {
+    return "High Activity";
+  }
+  return "Full Week";
+}
+
 function getWeeklyAwareness(bookings, referenceDate = new Date()) {
   const start = startOfWeek(referenceDate);
   const end = new Date(start);
@@ -129,20 +146,32 @@ function getWeeklyAwareness(bookings, referenceDate = new Date()) {
       ).length
     : 0;
 
-  let label;
-  if (activitiesThisWeek === 0) {
-    label = "Open Horizon";
-  } else if (activitiesThisWeek <= 2) {
-    label = "Light Activity";
-  } else if (activitiesThisWeek <= 4) {
-    label = "Steady Activity";
-  } else if (activitiesThisWeek <= 6) {
-    label = "High Activity";
-  } else {
-    label = "Full Week";
+  return {
+    activitiesThisWeek,
+    label: getWeeklyAwarenessLabel(activitiesThisWeek),
+  };
+}
+
+function getWeeklyGuidance(summary) {
+  const validShape =
+    summary !== null &&
+    typeof summary === "object" &&
+    Number.isInteger(summary.activitiesThisWeek) &&
+    summary.activitiesThisWeek >= 0;
+  const validSummary =
+    validShape && summary.label === getWeeklyAwarenessLabel(summary.activitiesThisWeek);
+
+  if (!validSummary) {
+    throw new TypeError("A valid weekly awareness summary is required.");
   }
 
-  return { activitiesThisWeek, label };
+  const { activitiesThisWeek } = summary;
+  const activityWord = activitiesThisWeek === 1 ? "activity is" : "activities are";
+
+  return {
+    key: "weekly-activity-count",
+    message: `${activitiesThisWeek} ${activityWord} planned this week.`,
+  };
 }
 
 function createTimeSlots() {
@@ -252,6 +281,7 @@ export const trainingPlannerDomain = Object.freeze({
   getActivity: (activityId) => activityById.get(activityId) ?? null,
   getRecommendations,
   getWeeklyAwareness,
+  getWeeklyGuidance,
   locationLabels,
   localDateKey,
   startOfWeek,
