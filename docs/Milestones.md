@@ -38,20 +38,16 @@ Full Week
 
 4A
 
-Plain Text
 Facts
 
 4B
 
-Plain Text
 Meaning
 
 4C
 
-Plain Text
 Presentation
 
 That's much easier to evolve than:
 
-Plain Text
 Facts + Meaning + Presentation
