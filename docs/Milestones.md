@@ -142,10 +142,8 @@ This is product-language work, not a new planner capability.
 ## Milestone 7 - Integration Readiness
 
 Only after plan changes and language behavior are stable, decide whether the
-### Milestone 5C - Reschedule one booking
-
-At a later stage, let the user move an existing activity to another available
-sample time. Real calendar integration remains outside this milestone.
+prototype should connect to reminders or a real calendar. Accounts, analytics,
+and machine-learning recommendations remain separate product decisions.
 
 ## Dependency flow
 
