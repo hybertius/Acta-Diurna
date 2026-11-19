@@ -635,8 +635,9 @@ Implemented boundary:
   or inferring activity intensity.
 - No copy suggests that the user should add, remove, pause, or limit activities.
 - No copy implies that the week is full in a capacity sense.
-- English guidance is available for the later presentation layer without
-  changing the current Swedish interface.
+- English guidance is available to the presentation layer. The current
+  prototype therefore contains mixed English and Swedish UI copy until
+  Milestone 6 resolves the language decision.
 
 Acceptance criteria:
 
@@ -657,8 +658,8 @@ getWeeklyGuidance({ activitiesThisWeek: 1, label: "Light Activity" })
 // { key: "weekly-activity-count", message: "1 activity is planned this week." }
 ```
 
-4B remains domain-only and does not change Home or the existing Swedish
-interface.
+4B itself remains domain-only and side-effect-free. Milestone 4D is responsible
+for calling it and presenting the result on Home.
 
 ### Milestone 4C - Weekly summary component
 
@@ -679,7 +680,7 @@ Implemented acceptance criteria:
 - Its standalone output is verified before Home integration.
 
 4C is presentation-only and depends on 4B output. It remains separate from Home
-data calculation and guidance selection.
+data calculation and guidance selection; 4D mounts it.
 
 ### Milestone 4D - Home integration
 
@@ -701,6 +702,8 @@ Implemented acceptance criteria:
 - It adds no new interactive control or live region.
 
 ### Milestone 4E - Weekly transition verification
+
+Status: pending.
 
 Purpose:
 
@@ -747,20 +750,7 @@ Acceptance criteria:
 - Removing an item does not require resetting the full sample plan.
 - The interface uses neutral language, not failure or guilt.
 
-### Milestone 5B - Weekly-summary reconciliation
-
-Purpose:
-
-Keep future Milestone 4 presentation synchronized with a changed plan.
-
-Acceptance criteria:
-
-- Weekly facts are recalculated from the remaining bookings.
-- Guidance remains deterministic and non-prescriptive.
-- Removing the last booking produces the zero-count state.
-- Earlier and later week bookings remain unaffected.
-
-### Milestone 5C - Reschedule one booking
+### Milestone 5B - Reschedule one booking
 
 Purpose:
 
@@ -773,6 +763,59 @@ Acceptance criteria:
 - The activity identity and the rest of the plan remain unchanged.
 - Confirmation persists the new time after refresh.
 - Real calendar integration remains out of scope.
+
+### Milestone 5C - Plan-change reconciliation
+
+Purpose:
+
+Keep the whole planner synchronized after removal or rescheduling.
+
+Acceptance criteria:
+
+- Weekly facts are recalculated from the remaining bookings.
+- Guidance remains deterministic and non-prescriptive.
+- Calendar markers and the next upcoming activity are correct.
+- Released and replaced slots match the available-time queue.
+- Removing the last booking produces the zero-count state.
+- Earlier and later week bookings remain unaffected.
+
+## Milestone 6 - Language and Content Consistency
+
+### Goal
+
+Choose one user-facing language and make the prototype's content coherent in
+that language.
+
+Acceptance criteria:
+
+- One canonical language is selected for all visible text.
+- Page language, locale formatting, labels, errors, and live announcements use
+  the same language.
+- Domain copy and display copy have a clear ownership boundary.
+- Activity names, recommendation explanations, and weekly guidance are reviewed
+  together.
+- The app's flow and stored-data shape remain unchanged.
+
+## Milestone 7 - Integration Readiness
+
+### Goal
+
+Decide, without committing prematurely, whether the planner should connect to
+real-world scheduling services.
+
+Candidate capabilities:
+
+- Reminders
+- Real calendar integration
+- Optional account synchronization
+
+Acceptance criteria for entering this milestone:
+
+- Milestone 5 plan changes are stable.
+- Milestone 6 language and accessibility behavior is coherent.
+- Each external integration has a separately scoped consent and privacy model.
+- Accounts, analytics, and machine-learning recommendations require their own
+  approval rather than being bundled into calendar integration.
 
 ### Dependency flow
 

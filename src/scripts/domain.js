@@ -174,32 +174,42 @@ function getWeeklyGuidance(summary) {
   };
 }
 
-function createTimeSlots() {
-  const now = new Date();
+function createTimeSlots(now = new Date()) {
   const monday = startOfWeek(now);
+  const slots = [];
+  let weekOffset = 0;
 
-  return slotDefinitions.map((definition) => {
-    const [hour, minute] = definition.time.split(":").map(Number);
-    const date = new Date(
-      monday.getFullYear(),
-      monday.getMonth(),
-      monday.getDate() + definition.weekdayOffset,
-      hour,
-      minute,
-    );
+  while (slots.length < 10) {
+    slotDefinitions.forEach((definition) => {
+      if (slots.length === 10) {
+        return;
+      }
 
-    if (date <= now) {
-      date.setDate(date.getDate() + 7);
-    }
+      const [hour, minute] = definition.time.split(":").map(Number);
+      const date = new Date(
+        monday.getFullYear(),
+        monday.getMonth(),
+        monday.getDate() + weekOffset + definition.weekdayOffset,
+        hour,
+        minute,
+      );
 
-    const dateKey = localDateKey(date);
-    return {
-      id: `${dateKey}|${definition.time}`,
-      date: dateKey,
-      time: definition.time,
-      durationMinutes: 30,
-    };
-  });
+      if (date <= now) {
+        return;
+      }
+
+      const dateKey = localDateKey(date);
+      slots.push({
+        id: `${dateKey}|${definition.time}`,
+        date: dateKey,
+        time: definition.time,
+        durationMinutes: 30,
+      });
+    });
+    weekOffset += 7;
+  }
+
+  return slots;
 }
 
 function compareMatch(activityValue, userValue, allowedValues) {

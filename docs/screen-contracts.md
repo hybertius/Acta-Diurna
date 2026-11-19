@@ -16,8 +16,10 @@
 - **Actions:** Select one slot and confirm.
 - **States:** No selection; selected slot; no sample slots remaining.
 - **Rules:** Confirmation is disabled until one available slot is selected.
-  When all sample slots are booked, a confirmed reset clears locally saved
-  bookings and returns to the available-time choices.
+  Five available choices are shown from a ten-slot future sample pool. After a
+  slot is booked, the next future slot takes its place. When all sample slots
+  are booked, a confirmed reset clears locally saved bookings and returns to
+  the available-time choices.
 
 ## Choose activity
 
@@ -70,7 +72,8 @@
 - These labels describe planning volume only. They are not targets, intensity
   ratings, daily-coverage claims, stopping points, or booking restrictions;
   counts above seven remain valid.
-- Milestone 4A adds no guidance message or Home integration.
+- Milestone 4A exposes the domain facts only. Milestone 4B owns guidance, 4C owns
+  presentation, and 4D integrates them on Home.
 
 ## Keyboard focus
 

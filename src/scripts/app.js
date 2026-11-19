@@ -164,7 +164,7 @@ function getAvailableTimeSlots() {
   const bookedSlotIds = new Set(
     state.scheduledActivities.map((activity) => activity.slotId),
   );
-  return timeSlots.filter((slot) => !bookedSlotIds.has(slot.id));
+  return timeSlots.filter((slot) => !bookedSlotIds.has(slot.id)).slice(0, 5);
 }
 
 function formatWeekday(dateKey, options = { weekday: "long" }) {

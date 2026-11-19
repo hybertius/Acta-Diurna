@@ -46,8 +46,9 @@ The guidance function:
   feels.
 - Does not prevent or discourage another booking.
 
-4B remains domain-only and does not change Home or the existing Swedish
-interface.
+4B itself remains domain-only and side-effect-free. Milestone 4D calls it when
+rendering Home; the resulting English summary is currently visible in the
+otherwise Swedish interface.
 
 ## Milestone 4C - Presentation
 
@@ -65,8 +66,8 @@ The component:
 - Lives in a standalone module so its rendered output can be verified without
   changing the Home screen.
 
-4C is component-only and is not mounted on Home yet. 4D is now the smallest
-reachable next step.
+4C remains a component-only renderer. Milestone 4D mounts that existing component
+on Home without moving storage, date, or copy-selection logic into it.
 
 ## Milestone 4D - Home integration
 
@@ -85,6 +86,8 @@ The summary:
 4D has no new persistence path and adds no interactive controls.
 
 ## Milestone 4E - Weekly transition verification
+
+Status: pending.
 
 Purpose: verify the summary remains factual as dates and stored data change.
 
@@ -114,12 +117,31 @@ The removal flow should:
 - Persist the updated plan after refresh.
 - Avoid failure language or guilt.
 
-### Milestone 5B - Recalculate the week
+### Milestone 5B - Reschedule one booking
 
-After removal, recalculate the 4A weekly facts and refresh any future 4B/4C
-summary. Removing the final booking should produce an intentional zero-count
+Let the user move an existing activity to another available sample time while
+preserving the activity identity and the rest of the plan. The old slot remains
+booked until the replacement is confirmed.
+
+### Milestone 5C - Plan-change reconciliation
+
+Verify that removal and rescheduling update persistence, available slots, the
+Home calendar, and the Milestone 4 summary without disturbing unrelated
+bookings. Removing the final booking should produce an intentional zero-count
 state.
 
+## Milestone 6 - Language and Content Consistency
+
+Choose the canonical user-facing language and remove the temporary mixed
+English/Swedish presentation. Centralize user copy, update page language and
+date formatting, and review accessible names and announcements as one
+coordinated change.
+
+This is product-language work, not a new planner capability.
+
+## Milestone 7 - Integration Readiness
+
+Only after plan changes and language behavior are stable, decide whether the
 ### Milestone 5C - Reschedule one booking
 
 At a later stage, let the user move an existing activity to another available
@@ -127,8 +149,10 @@ sample time. Real calendar integration remains outside this milestone.
 
 ## Dependency flow
 
-The dependency order is 4A facts, then 4B meaning, then 4C presentation, then 4D
-Home integration, followed by 4E verification.
+The dependency order is 4A facts, 4B meaning, 4C presentation, and 4D Home
+integration, followed by 4E verification. Milestone 5 then adds controlled plan
+changes. Milestone 6 resolves language consistency before Milestone 7 considers
+external integration.
 
 This preserves the useful separation of:
 

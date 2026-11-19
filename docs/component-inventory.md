@@ -25,7 +25,7 @@ design history, but Frame 3 is no longer the sole implementation target.
 | `WeekCalendar` | Shows the current week, weekday labels, dates, and a legend for small pebble markers on days with scheduled activities. | Current week; day with or without activity; selected day if interaction requires it. | Frame 1 |
 | `UpcomingActivityCard` | Summarizes the next scheduled activity with an icon or visual marker and concise activity/time text. | Populated; optional activity icon. | Frame 1 |
 | `WeeklySummary` | Presents Milestone 4A facts and 4B guidance as a static, reusable component. It receives the weekly count, descriptive label, and guidance message; it performs no storage access, date calculation, or copy selection. | Zero count; light, steady, or high activity; full week. | Planned for Home in Milestone 4D |
-| `AvailabilitySection` | Groups available time choices under a section heading. | One or more selectable time slots. | Frame 2 |
+| `AvailabilitySection` | Groups available time choices under a section heading. It shows the next five available choices from a ten-slot future sample pool, so the queue refills after booking without making the prototype endless. | One to five selectable time slots; fully booked empty state. | Frame 2 |
 | `TimeSlotCard` | Shows a time option and communicates its selection state. | Available, selected; selection marker shown as appropriate. | Frame 2 |
 | `SelectedActivitySummary` | Confirms the chosen activity and its details (day/time, duration, activity type, equipment). | Populated selection. | Frame 4 |
 | `ActivityGroup` | Groups related activity options under a semantic category heading. | Populated group. | Frame 3 |
