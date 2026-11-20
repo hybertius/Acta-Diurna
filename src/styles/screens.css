@@ -78,6 +78,7 @@
 
 .time-screen .time-slot-list {
   margin-top: 16px;
+  margin-bottom: var(--space-5);
 }
 
 .time-screen .primary-action {

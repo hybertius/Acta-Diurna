@@ -80,3 +80,15 @@
 - Moving to another screen places focus on that screen's heading, except after
   saving a booking, when focus moves to Home's primary action.
 - Re-rendering a selected time or activity keeps focus on the selected card.
+
+## Milestone 5 in-flow back navigation (planned)
+
+- A back-arrow button appears in the upper-left corner of available-times,
+  choose-activity, and confirmation screens.
+- Back returns one step: available times to Home, activity selection to
+  available times, and confirmation to activity selection.
+- Valid in-progress choices are preserved. Changing a time clears a selected
+  activity that no longer applies.
+- Going back does not save or modify scheduled activities.
+- Each button's accessible name identifies its destination. Focus returns to a
+  preserved selection when possible, otherwise to the destination heading.

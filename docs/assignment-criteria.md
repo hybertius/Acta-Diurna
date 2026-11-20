@@ -635,9 +635,9 @@ Implemented boundary:
   or inferring activity intensity.
 - No copy suggests that the user should add, remove, pause, or limit activities.
 - No copy implies that the week is full in a capacity sense.
-- English guidance is available to the presentation layer. The current
-  prototype therefore contains mixed English and Swedish UI copy until
-  Milestone 6 resolves the language decision.
+- English guidance is available to the presentation layer. The prototype
+  currently contains mixed English and Swedish UI copy; Milestone 7 translates
+  the remaining interface into English.
 
 Acceptance criteria:
 
@@ -725,7 +725,31 @@ Acceptance criteria:
 - The Home action remains obvious and usable.
 - Existing booking behavior remains intact.
 
-## Milestone 5 - Plan Flexibility
+## Milestone 5 - In-flow Back Navigation
+
+### Goal
+
+Let users move one step back through the unconfirmed booking flow with a
+back-arrow button in the upper-left corner.
+
+Acceptance criteria:
+
+- Back buttons appear on available-times, choose-activity, and confirmation
+  screens, but not on Home.
+- Back from available times returns to Home; back from activity selection
+  returns to available times; back from confirmation returns to activity
+  selection.
+- Choices are preserved when still valid. Changing an earlier choice clears
+  only downstream choices that no longer apply.
+- Going back does not save or alter any scheduled activity.
+- Each button has an accessible name that identifies its destination, works
+  with a keyboard, and returns focus to the preserved choice or destination
+  heading.
+- Browser verification covers each back transition, selection preservation and
+  invalidation, and confirms that no booking is saved before explicit
+  confirmation.
+
+## Milestone 6 - Plan Flexibility
 
 ### Goal
 
@@ -733,7 +757,7 @@ Let the user change the plan without implying that the original decision was
 wrong. No accounts, analytics, reminders, machine learning, or real calendar
 integration are added.
 
-### Milestone 5A - Remove one booking
+### Milestone 6A - Remove one booking
 
 Purpose:
 
@@ -750,7 +774,7 @@ Acceptance criteria:
 - Removing an item does not require resetting the full sample plan.
 - The interface uses neutral language, not failure or guilt.
 
-### Milestone 5B - Reschedule one booking
+### Milestone 6B - Reschedule one booking
 
 Purpose:
 
@@ -764,7 +788,7 @@ Acceptance criteria:
 - Confirmation persists the new time after refresh.
 - Real calendar integration remains out of scope.
 
-### Milestone 5C - Plan-change reconciliation
+### Milestone 6C - Plan-change reconciliation
 
 Purpose:
 
@@ -779,24 +803,27 @@ Acceptance criteria:
 - Removing the last booking produces the zero-count state.
 - Earlier and later week bookings remain unaffected.
 
-## Milestone 6 - Language and Content Consistency
+## Milestone 7 - English Language Consistency
 
 ### Goal
 
-Choose one user-facing language and make the prototype's content coherent in
-that language.
+Make English the canonical user-facing language and remove the temporary
+English/Swedish mix while preserving the planner's calm, non-judgmental tone.
 
 Acceptance criteria:
 
-- One canonical language is selected for all visible text.
-- Page language, locale formatting, labels, errors, and live announcements use
-  the same language.
+- All visible interface copy is in English, including booking, recommendations,
+  calendar labels, empty states, errors, and weekly guidance.
+- The document language, date/time formatting, accessible names, validation
+  messages, and live announcements are in English.
 - Domain copy and display copy have a clear ownership boundary.
-- Activity names, recommendation explanations, and weekly guidance are reviewed
-  together.
-- The app's flow and stored-data shape remain unchanged.
+- Activity names and recommendation explanations preserve the calm,
+  non-judgmental voice.
+- Browser verification covers key screens and the booking flow at desktop and
+  mobile widths, with no remaining Swedish UI strings.
+- The app's flow, behavior, and stored-data shape remain unchanged.
 
-## Milestone 7 - Integration Readiness
+## Milestone 8 - Integration Readiness
 
 ### Goal
 
@@ -811,8 +838,8 @@ Candidate capabilities:
 
 Acceptance criteria for entering this milestone:
 
-- Milestone 5 plan changes are stable.
-- Milestone 6 language and accessibility behavior is coherent.
+- Milestone 6 plan changes are stable.
+- Milestone 7 language and accessibility behavior is coherent.
 - Each external integration has a separately scoped consent and privacy model.
 - Accounts, analytics, and machine-learning recommendations require their own
   approval rather than being bundled into calendar integration.
