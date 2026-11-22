@@ -1,6 +1,6 @@
-# Training Planner
+# Acta Diurna
 
-A lightweight training planner prototype with a complete local happy path:
+A lightweight planner prototype with a complete local happy path:
 choose a sample time, receive activity recommendations, confirm a booking, and
 see it on the home screen.
 
