@@ -2,7 +2,7 @@
 
 ## Brief
 
-Milestone 1 is a working happy path for the Training Planner. A user can choose
+Milestone 1 is a working happy path for the Acta Diurna. A user can choose
 one available time, pick a recommended activity, confirm it, and see the
 scheduled activity on the home screen after a refresh.
 
@@ -360,11 +360,11 @@ Users can optionally indicate current energy level.
 
 Example:
 
-Hur känns det idag?
+How do you feel today?
 
-○ Låg
+○ Low
 ○ Normal
-○ Hög
+○ High
 
 Requirements:
 
@@ -384,8 +384,8 @@ Users can provide a preferred environment.
 
 Example:
 
-Inomhus
-Utomhus
+Indoors
+Outside
 
 Requirements:
 
